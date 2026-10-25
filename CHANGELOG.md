@@ -8,7 +8,7 @@
 - Shared one route and location manager between the phone and a compiled CarPlay template/map adapter; included system cancellation, search, trip previews, turn estimates, panning, recenter, overview and mute.
 - Prepared approval-gated CarPlay scene, navigation entitlement and background-location configuration. These are inactive until Apple approval and subsequent validation. Submitted the navigation entitlement request with the owner-approved addendum and three simulator screenshots; Apple confirmed receipt and approval is pending.
 - Reset the route panel scroll position when guidance starts, keeping the next turn visible after browsing the turn list on Duo.
-- Prepared release build 4 for internal TestFlight distribution.
+- Released **0.2.0 (4)** to the existing NightDrive Internal TestFlight group; Apple reports Testing. Included matching MapLibre device symbols before a warning-free upload. Build 3 remains unassigned.
 
 ## 0.1.0 — 2026-10-25
 
