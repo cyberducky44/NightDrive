@@ -2,7 +2,7 @@
 
 A personal native SwiftUI map for **iOS 26+**, inspired by dark navy maps, cyan streets and red 3D buildings. Built with **MapLibre Native 6.31.0**, OpenFreeMap vector tiles and OpenMapTiles / OpenStreetMap data. No API key is needed.
 
-![NightDrive on the open iPhone Duo simulator](docs/screenshots/duo-open.png)
+![Compact map controls with optional POIs on the Duo simulator](docs/screenshots/duo-compact.png)
 
 ## Run
 
@@ -22,13 +22,17 @@ xcodebuild -project NightDrive.xcodeproj -scheme NightDrive \
 
 ## Use
 
+- **Camera menu (hand / location / car icon):** choose Explore, Follow or Drive.
 - **Explore:** pan, zoom, rotate and tilt the real map. The initial view is central London, a public demonstration location, not your position.
 - **Follow:** request When In Use access and follow a fresh location north-up.
 - **Drive:** follow position with a tilted, course-aligned camera. At low speed, an available compass heading is used. This is **not turn-by-turn navigation**.
 - **2D / 3D:** switch building extrusion and map tilt. Any map gesture returns the camera to Explore.
+- **POI pin:** show/hide named points of interest, marked in gold. Starts off; labels appear from zoom 15 and become more detailed as you zoom in. Coverage comes from OpenStreetMap data; this does not add place search, routing or opening hours.
+- **Speed badge:** compact MPH display; tap to open/close GPS status, accuracy and permission details.
+- **Full-screen map:** swipe left across the rail or GPS details, or tap the bottom chevron. Restore controls with the small sidebar button. POI/camera selections are preserved while hidden and map attribution stays visible.
 - **Info:** map credits, privacy details and the scope of later stages.
 
-Controls adapt to available space: compact bottom controls on regular/narrow iPhones, a side dashboard on wide Duo/open or tablet displays, and compact landscape support. No model-name checks are used. Dynamic Type and Reduce Motion are supported.
+A compact left-hand icon rail leaves the map visible on regular iPhones and both Duo screen sizes. GPS details open only when requested or when access is denied. Controls and details scroll on shorter screens or with larger text. No model-name checks are used; Reduce Motion is respected.
 
 ## GPS and privacy
 
@@ -39,7 +43,7 @@ Map tiles and glyphs require network access for uncached regions. OpenFreeMap re
 ## Architecture
 
 - `App/`: SwiftUI entry point.
-- `UI/`: adaptive dashboard, controls and linked attribution.
+- `UI/`: collapsible compact rail, controls and linked attribution.
 - `Location/LocationService.swift`: the single Core Location owner and permission/lifecycle state.
 - `Map/NightMapView.swift`: UIKit MapLibre bridge, GPS marker and camera synchronization. Gestures release follow mode.
 - `Map/CameraMode.swift`: camera policy and location-quality rules.

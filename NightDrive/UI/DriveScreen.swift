@@ -4,55 +4,73 @@ struct DriveScreen: View {
     @StateObject private var gps = LocationService()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(\.dynamicTypeSize) private var dynamicType
     @State private var mode: CameraMode = .free
     @State private var is3D = true
     @State private var mapStatus = "Loading map…"
     @State private var reloadID = 0
     @State private var showingInfo = false
+    @State private var showsPOIs = false
+    @State private var controlsVisible = true
+    @State private var showingDetails = false
 
     var body: some View {
         GeometryReader { geometry in
-            let wide = geometry.size.width >= 700 && geometry.size.height >= 450 && !dynamicType.isAccessibilitySize
             ZStack(alignment: .topLeading) {
                 NightMapView(mode: $mode, mapStatus: $mapStatus, location: gps.currentLocation,
-                             heading: gps.heading, is3D: is3D, reloadID: reloadID, reduceMotion: reduceMotion)
+                             heading: gps.heading, is3D: is3D, showsPOIs: showsPOIs,
+                             reloadID: reloadID, reduceMotion: reduceMotion)
                     .ignoresSafeArea()
-                LinearGradient(colors: [NightTheme.navy.opacity(0.7), .clear], startPoint: .top, endPoint: .bottom)
-                    .frame(height: 160).ignoresSafeArea().allowsHitTesting(false)
-                if wide {
-                    VStack(alignment: .leading, spacing: 18) {
-                        brand
-                        statusPanel
-                        cameraControls
-                        Spacer()
-                        Text("THE CITY, AFTER DARK.")
-                            .font(.system(.caption2, design: .monospaced)).tracking(2).foregroundStyle(NightTheme.muted)
+                if controlsVisible {
+                    HStack(alignment: .top, spacing: 8) {
+                        ScrollView { controlRail }
+                            .scrollIndicators(.hidden)
+                            .frame(width: 56)
+                            .fixedSize(horizontal: false, vertical: true)
+                        if showingDetails {
+                            ScrollView {
+                                VStack(alignment: .leading, spacing: 14) {
+                                    HStack {
+                                        brand
+                                        Spacer(minLength: 0)
+                                        Button { showingDetails = false } label: {
+                                            Image(systemName: "xmark").frame(width: 44, height: 44)
+                                        }.accessibilityLabel("Close GPS details")
+                                    }
+                                    statusPanel
+                                    Text("Swipe left to hide controls")
+                                        .font(.caption).foregroundStyle(NightTheme.muted)
+                                }.padding(12)
+                            }
+                            .frame(width: min(290, max(180, geometry.size.width - 88)))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .background(NightTheme.panel.opacity(0.96), in: RoundedRectangle(cornerRadius: 16))
+                        }
                     }
-                    .padding(20).frame(width: 290)
-                    .background(NightTheme.navy.opacity(0.94))
-                    HStack { Spacer(); utilityControls }.padding(20)
+                    .padding(12)
+                    .simultaneousGesture(DragGesture(minimumDistance: 10).onEnded { value in
+                        if value.translation.width < -12 && abs(value.translation.width) > abs(value.translation.height) {
+                            setControlsVisible(false)
+                        }
+                    })
+                    .transition(.move(edge: .leading).combined(with: .opacity))
                 } else {
-                    VStack(spacing: 12) {
-                        HStack(alignment: .top) { brand; Spacer(); utilityControls }
-                        if geometry.size.height >= 450 { statusPanel.frame(maxWidth: 360, alignment: .leading).frame(maxWidth: .infinity, alignment: .leading) }
-                        Spacer()
-                    }.padding(16)
+                    Button { setControlsVisible(true) } label: {
+                        Image(systemName: "sidebar.left").frame(width: 44, height: 44)
+                    }
+                    .accessibilityLabel("Show map controls").accessibilityIdentifier("showControls")
+                    .background(NightTheme.panel.opacity(0.9), in: RoundedRectangle(cornerRadius: 12))
+                    .padding(12)
+                    .transition(.opacity)
                 }
             }
-            .safeAreaInset(edge: .bottom, spacing: 8) {
-                VStack(spacing: 10) {
-                    if !wide { cameraControls.padding(.horizontal, 16) }
-                    attribution
-                }
-                .padding(.bottom, 4)
-            }
+            .safeAreaInset(edge: .bottom, spacing: 0) { attribution.padding(.bottom, 4) }
+
         }
         .background(NightTheme.navy)
         .sheet(isPresented: $showingInfo) { information }
         .onChange(of: scenePhase) { _, phase in gps.setActive(phase == .active) }
         .onChange(of: gps.authorization) { _, _ in
-            if !gps.isAuthorized && gps.authorization != .notDetermined { mode = .free }
+            if !gps.isAuthorized && gps.authorization != .notDetermined { mode = .free; showingDetails = true }
         }
     }
 
@@ -69,30 +87,71 @@ struct DriveScreen: View {
         }.accessibilityElement(children: .combine)
     }
 
-    private var utilityControls: some View {
-        VStack(spacing: 10) {
+    private var controlRail: some View {
+        VStack(spacing: 2) {
+            Button { showingDetails.toggle() } label: {
+                VStack(spacing: 0) {
+                    Text(LocationQuality.speedMPH(gps.currentLocation).map(String.init) ?? "—")
+                        .font(.system(.title3, design: .monospaced, weight: .semibold)).monospacedDigit()
+                    Text("MPH").font(.system(size: 9, weight: .bold, design: .monospaced))
+                }.frame(width: 52, height: 52)
+            }
+            .accessibilityLabel("Speed, \(LocationQuality.speedMPH(gps.currentLocation).map { "\($0) miles per hour" } ?? "unavailable"). \(gps.status). Show GPS details")
+            .accessibilityIdentifier("speedDetails")
+            Divider().overlay(NightTheme.cyan.opacity(0.3)).padding(.horizontal, 8)
+            Menu {
+                ForEach(CameraMode.allCases) { option in
+                    Button { selectMode(option) } label: {
+                        Label(option.title, systemImage: mode == option ? "checkmark" : option.symbol)
+                    }.accessibilityIdentifier("mode_\(option.rawValue)")
+                }
+            } label: {
+                Image(systemName: mode.symbol).frame(width: 52, height: 44)
+            }
+            .accessibilityLabel("Camera mode, \(mode.title)")
+            .accessibilityIdentifier("cameraMenu")
+            Button { showsPOIs.toggle() } label: {
+                Image(systemName: showsPOIs ? "mappin.and.ellipse" : "mappin.slash")
+                    .frame(width: 52, height: 44)
+                    .background(showsPOIs ? NightTheme.cyan.opacity(0.2) : .clear, in: RoundedRectangle(cornerRadius: 10))
+            }
+            .accessibilityLabel(showsPOIs ? "Hide points of interest" : "Show points of interest")
+            .accessibilityValue(showsPOIs ? "On" : "Off").accessibilityIdentifier("togglePOIs")
             Button { is3D.toggle() } label: {
                 Text(is3D ? "3D" : "2D").font(.system(.subheadline, design: .monospaced, weight: .bold))
-                    .frame(width: 48, height: 48)
+                    .frame(width: 52, height: 44)
             }.accessibilityLabel(is3D ? "Switch to 2D map" : "Switch to 3D map").accessibilityIdentifier("toggle3D")
             Button { showingInfo = true } label: {
-                Image(systemName: "info").frame(width: 48, height: 48)
+                Image(systemName: "info.circle").frame(width: 52, height: 44)
             }.accessibilityLabel("About NightDrive").accessibilityIdentifier("aboutButton")
+            Button { setControlsVisible(false) } label: {
+                Image(systemName: "chevron.left").frame(width: 52, height: 44)
+            }.accessibilityLabel("Hide map controls").accessibilityIdentifier("hideControls")
         }
+        .buttonStyle(.plain)
+        .padding(.vertical, 4)
         .foregroundStyle(NightTheme.cyan)
         .background(NightTheme.panel.opacity(0.96), in: RoundedRectangle(cornerRadius: 14))
         .overlay(RoundedRectangle(cornerRadius: 14).stroke(NightTheme.cyan.opacity(0.25)))
     }
 
+    private func setControlsVisible(_ visible: Bool) {
+        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
+            controlsVisible = visible
+            if !visible { showingDetails = false }
+        }
+    }
+
+    private func selectMode(_ option: CameraMode) {
+        mode = option
+        guard option != .free else { return }
+        is3D = option == .driving
+        gps.requestAccess()
+        if gps.authorization == .denied || gps.authorization == .restricted { mode = .free; showingDetails = true }
+    }
+
     private var statusPanel: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(LocationQuality.speedMPH(gps.currentLocation).map(String.init) ?? "—")
-                    .font(.system(size: 38, weight: .light, design: .monospaced)).monospacedDigit()
-                Text("MPH").font(.system(.caption2, design: .monospaced)).foregroundStyle(NightTheme.muted)
-                Spacer()
-                Image(systemName: gps.currentLocation == nil ? "location.slash" : "location.fill").foregroundStyle(NightTheme.cyan)
-            }.accessibilityElement(children: .combine).accessibilityLabel("Speed, \(LocationQuality.speedMPH(gps.currentLocation).map { "\($0) miles per hour" } ?? "unavailable")")
             Text(gps.status).font(.subheadline).accessibilityIdentifier("gpsStatus")
             if let location = gps.currentLocation {
                 Text("ACCURACY ±\(Int(location.horizontalAccuracy)) M")
@@ -110,45 +169,6 @@ struct DriveScreen: View {
                     Text(mapStatus).font(.caption).foregroundStyle(NightTheme.muted)
                     if mapStatus.contains("unavailable") { Button("Retry") { mapStatus = "Loading map…"; reloadID += 1 } }
                 }
-            }
-        }.modifier(HUDPanel())
-    }
-
-    private var cameraControls: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(mode == .free ? "FREE EXPLORATION" : mode == .follow ? "FOLLOWING POSITION" : "DRIVING CAMERA")
-                    .font(.system(.caption2, design: .monospaced, weight: .semibold)).tracking(1)
-                    .accessibilityIdentifier("cameraStatus")
-                Spacer(minLength: 4)
-                Circle().fill(NightTheme.cyan).frame(width: 5, height: 5)
-            }.foregroundStyle(NightTheme.muted)
-            HStack(spacing: 6) {
-                ForEach(CameraMode.allCases) { option in
-                    Button {
-                        mode = option
-                        if option != .free {
-                            if option == .driving { is3D = true }
-                            if option == .follow { is3D = false }
-                            gps.requestAccess()
-                            if gps.authorization == .denied || gps.authorization == .restricted { mode = .free }
-                        }
-                    } label: {
-                        VStack(spacing: 7) {
-                            Image(systemName: option.symbol).font(.title3)
-                            Text(option.title).font(.system(.caption, design: .monospaced, weight: .semibold))
-                        }
-                        .frame(maxWidth: .infinity).padding(.vertical, 12)
-                        .foregroundStyle(mode == option ? NightTheme.navy : NightTheme.cyan)
-                        .background(mode == option ? NightTheme.cyan : NightTheme.cyan.opacity(0.07), in: RoundedRectangle(cornerRadius: 10))
-                    }
-                    .buttonStyle(.plain).accessibilityIdentifier("mode_\(option.rawValue)")
-                    .accessibilityAddTraits(mode == option ? [.isSelected] : [])
-                }
-            }
-            if mode == .driving {
-                Text("Camera only · Turn-by-turn routing comes later")
-                    .font(.caption2).foregroundStyle(NightTheme.muted)
             }
         }.modifier(HUDPanel())
     }
@@ -175,6 +195,10 @@ struct DriveScreen: View {
                 Section("NightDrive · Stage 1") {
                     Text("A neon map of the real world. Explore freely, follow your location north-up, or use a tilted driving camera aligned to your direction of travel.")
                     Text("Pan, zoom or rotate to return to Explore. Drive is a camera mode; route planning and turn-by-turn directions are not available yet.")
+                }
+                Section("Map controls") {
+                    Text("Tap the speed badge for GPS details. The camera menu switches between Explore, Follow and Drive. Tap the pin to show or hide named points of interest; zoom in for more places. Coverage depends on the map data. POIs do not provide search or routing yet.")
+                    Text("Swipe left across the controls, or tap the chevron, for a full-screen map. Tap the sidebar icon to bring the controls back. Attribution stays visible.")
                 }
                 Section("Location & privacy") {
                     Text("Location is used only while NightDrive is active. No location history or analytics is recorded by the app. Map tiles and fonts are requested from OpenFreeMap, which can see your IP address and the map areas requested.")

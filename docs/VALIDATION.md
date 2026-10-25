@@ -61,3 +61,21 @@ The owner explicitly authorized the necessary development certificates/profiles 
 - Real GPS permission and road-use/battery/compass acceptance have not been claimed from installation alone.
 
 This was a development installation only. No archive distribution, CarPlay approval, TestFlight upload or App Store submission was performed.
+
+
+## Compact rail and POIs — 2026-10-25
+
+- The full suite passed on regular iPhone 18 Pro (iOS 27.0) and Duo (iOS 27.1): 7 unit checks and 4 UI checks on each, zero failures.
+- Verified real named POIs render with gold dots/labels, and disappear when toggled off. The style adds one collision-aware symbol layer, initially hidden, with zoom 15 minimum.
+- UI checks cover menu choices, 2D/3D, permission denial, GPS drawer dismissal, POI state across hide/restore, retained attribution, About and landscape controls.
+- A follow-up rail-only swipe check exposed that the distance threshold was too large for short gestures on a narrow button. Reduced the threshold and added a rail-width drag check in addition to the existing drawer swipe. Final targeted reruns passed on both the regular iPhone and Duo.
+- Visually inspected the compact rail and POIs on regular iPhone, Duo open, partially open and closed; full-screen mode and restoring the rail work across Duo folding.
+- Simulator screenshots use the public London demonstration map, with no physical-device location captured.
+
+Current evidence: [regular iPhone with POIs](screenshots/compact-pois.png), [Duo compact rail](screenshots/duo-compact.png), [Duo full-screen map](screenshots/duo-fullscreen.png). The earlier screenshots above document the previous dashboard.
+
+Local result bundles: `/tmp/NightDrive-Controls-iPhone.xcresult`, `/tmp/NightDrive-Controls-Duo.xcresult`, `/tmp/NightDrive-ShortSwipe-iPhone.xcresult`, and `/tmp/NightDrive-ShortSwipe-Duo.xcresult`. One multi-destination retry was interrupted while Xcode stalled collecting failure diagnostics; subsequent verification uses individual destinations.
+
+A simulator crash report records a MapLibre worker-thread crash just after the first unit-test suite finished and its host was shutting down (14:01:03 UTC). The suite itself reported success. It did not recur in the later Duo full suite, targeted reruns or manual map checks. This is recorded as an unresolved test-host teardown issue; it is not proof that extended physical use is crash-free.
+
+The updated signed Debug build and strict signature verification passed, and installation on the physical Duo succeeded. Launch was blocked by the device lock screen; the updated physical UI has not yet been inspected.

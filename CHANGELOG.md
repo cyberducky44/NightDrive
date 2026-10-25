@@ -29,3 +29,13 @@
 - Added reproducible automatic Apple Development signing with a Git-ignored local team override; fresh checkouts and simulators remain unsigned.
 - Built the signed Debug app, verified the signature and device provisioning, and installed/launched NightDrive on the physical Duo.
 - Kept certificates, profiles, device identifiers and local account settings out of Git; no Apple distribution or approval submission was performed.
+
+
+### Compact controls and POIs milestone
+- Added an optional gold POI layer using real named OpenMapTiles points, with collision-aware labels from zoom 15 and an original bundled marker.
+- Replaced the large dashboard and bottom camera selector with a compact left rail: speed/details, camera menu, POI toggle, 2D/3D, info and hide.
+- Added left-swipe dismissal from the rail or GPS drawer, a restore button, and an accessible hide-button alternative. Hiding controls preserves map selections and visible attribution.
+- Kept GPS permission/accuracy and network retry details in the speed drawer; denied location automatically reveals the explanation.
+- Extended UI regression checks for POI state, drawer/rail swipes, full-screen restoration, camera menus, attribution, denied location and landscape reachability.
+- Passed the 11-check full suite on each simulator and final targeted short-swipe reruns on both; visually verified real POIs and Duo folding.
+- Built and signature-verified the signed device update and installed it on the connected Duo. Launch verification waits for the device to be unlocked.

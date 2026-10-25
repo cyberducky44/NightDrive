@@ -54,6 +54,14 @@ layer('places','symbol','place',layout={
     'text-font':['Noto Sans Bold'],'text-size':zoom(3,11,10,15,15,18),
     'text-transform':'uppercase','text-letter-spacing':0.15,'text-max-width':10
 },paint={'text-color':'#d0eaf2','text-halo-color':'#060b1c','text-halo-width':2})
+# Collision-aware named POIs; hidden until explicitly enabled by the map control.
+layer('points-of-interest','symbol','poi',minzoom=15,filter=['has','name'],layout={
+    'visibility':'none','icon-image':'nightdrive-poi','icon-padding':4,
+    'text-field':['coalesce',['get','name:en'],['get','name']],
+    'text-font':['Noto Sans Regular'],'text-size':zoom(15,11,18,13),
+    'text-anchor':'top','text-offset':[0,0.7],'text-max-width':9,'text-padding':6,
+    'symbol-sort-key':['coalesce',['get','rank'],1000]
+},paint={'text-color':'#f2cf70','text-halo-color':'#060b1c','text-halo-width':2})
 style = {
     'version':8,'name':'NightDrive / Neon Grid',
     'metadata':{'nightdrive:version':1,'nightdrive:author':'NightDrive'},

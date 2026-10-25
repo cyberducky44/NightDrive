@@ -8,6 +8,7 @@ struct NightMapView: UIViewRepresentable {
     let location: CLLocation?
     let heading: Double?
     let is3D: Bool
+    let showsPOIs: Bool
     let reloadID: Int
     let reduceMotion: Bool
 
@@ -39,6 +40,7 @@ struct NightMapView: UIViewRepresentable {
             map.reloadStyle(map)
         }
         map.style?.layer(withIdentifier: "buildings-3d")?.isVisible = is3D
+        map.style?.layer(withIdentifier: "points-of-interest")?.isVisible = showsPOIs
         if coordinator.last3D != is3D {
             coordinator.last3D = is3D
             let camera = map.camera
@@ -97,6 +99,15 @@ struct NightMapView: UIViewRepresentable {
             gestureInProgress = false
         }
         func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
+            // A bundled, original marker keeps POIs independent of an external sprite sheet.
+            let marker = UIGraphicsImageRenderer(size: CGSize(width: 10, height: 10)).image { context in
+                UIColor(NightTheme.navy).setFill()
+                context.cgContext.fillEllipse(in: CGRect(x: 0, y: 0, width: 10, height: 10))
+                UIColor(red: 0.95, green: 0.81, blue: 0.44, alpha: 1).setFill()
+                context.cgContext.fillEllipse(in: CGRect(x: 2, y: 2, width: 6, height: 6))
+            }
+            style.setImage(marker, forName: "nightdrive-poi")
+            style.layer(withIdentifier: "points-of-interest")?.isVisible = parent.showsPOIs
             style.layer(withIdentifier: "buildings-3d")?.isVisible = parent.is3D
         }
         func mapViewDidFinishLoadingMap(_ mapView: MLNMapView) {
