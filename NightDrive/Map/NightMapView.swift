@@ -12,6 +12,9 @@ struct NightMapView: UIViewRepresentable {
     let recenterID: Int
     let reloadID: Int
     let reduceMotion: Bool
+    let selectedSpot: MapSpot?
+    let onSpot: (MapSpot) -> Void
+    let onCenter: (CLLocationCoordinate2D) -> Void
 
     static var styleURL: URL { Bundle.main.url(forResource: "nightdrive", withExtension: "json")! }
 
@@ -28,6 +31,18 @@ struct NightMapView: UIViewRepresentable {
         map.attributionButton.isHidden = true // Always-visible linked attribution lives in SwiftUI.
         map.compassView.isHidden = true
         map.accessibilityIdentifier = "nightMap"
+        let tap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.selectPOI(_:)))
+        tap.cancelsTouchesInView = false
+        // Preserve MapLibre's double-tap zoom and pan gestures.
+        for recognizer in map.gestureRecognizers ?? [] {
+            if let doubleTap = recognizer as? UITapGestureRecognizer, doubleTap.numberOfTapsRequired > 1 {
+                tap.require(toFail: doubleTap)
+            }
+        }
+        map.addGestureRecognizer(tap)
+        let press = UILongPressGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.selectSpot(_:)))
+        press.minimumPressDuration = 0.6
+        map.addGestureRecognizer(press)
         map.setCenter(CLLocationCoordinate2D(latitude: 51.5074, longitude: -0.1278), zoomLevel: 15.7, animated: false)
         context.coordinator.last3D = is3D
         return map
@@ -41,6 +56,18 @@ struct NightMapView: UIViewRepresentable {
             map.reloadStyle(map)
         }
         coordinator.applyStyleSettings(to: map)
+        if coordinator.spotID != selectedSpot?.id {
+            if let marker = coordinator.spotMarker { map.removeAnnotation(marker) }
+            coordinator.spotMarker = nil
+            coordinator.spotID = selectedSpot?.id
+            if let selectedSpot {
+                let marker = SpotAnnotation()
+                marker.coordinate = selectedSpot.coordinate
+                marker.title = selectedSpot.name
+                coordinator.spotMarker = marker
+                map.addAnnotation(marker)
+            }
+        }
         if coordinator.last3D != is3D {
             coordinator.last3D = is3D
             let camera = map.camera
@@ -79,9 +106,13 @@ struct NightMapView: UIViewRepresentable {
         map.delegate = nil
     }
 
+    final class SpotAnnotation: MLNPointAnnotation {}
+
     final class Coordinator: NSObject, MLNMapViewDelegate {
         var parent: NightMapView
         var marker: MLNPointAnnotation?
+        var spotMarker: SpotAnnotation?
+        var spotID: UUID?
         var lastMode: CameraMode = .free
         var lastLocationDate: Date?
         var lastHeading: Double?
@@ -95,6 +126,28 @@ struct NightMapView: UIViewRepresentable {
         var initializedCamera = false
         init(_ parent: NightMapView) { self.parent = parent }
 
+        @objc func selectPOI(_ recognizer: UITapGestureRecognizer) {
+            guard recognizer.state == .ended, parent.poiSettings.enabled,
+                  let map = recognizer.view as? MLNMapView else { return }
+            let point = recognizer.location(in: map)
+            let area = CGRect(x: point.x - 18, y: point.y - 18, width: 36, height: 36)
+            let features = map.visibleFeatures(in: area, styleLayerIdentifiers: ["points-of-interest"])
+            let nearest = features.min { left, right in
+                let a = map.convert(left.coordinate, toPointTo: map)
+                let b = map.convert(right.coordinate, toPointTo: map)
+                return hypot(a.x - point.x, a.y - point.y) < hypot(b.x - point.x, b.y - point.y)
+            }
+            guard let feature = nearest else { return }
+            let name = feature.attributes["name:en"] as? String ?? feature.attributes["name"] as? String ?? "Map place"
+            parent.onSpot(MapSpot(coordinate: feature.coordinate, name: name,
+                                  category: feature.attributes["class"] as? String ?? "Place"))
+        }
+        @objc func selectSpot(_ recognizer: UILongPressGestureRecognizer) {
+            guard recognizer.state == .began, let map = recognizer.view as? MLNMapView else { return }
+            let coordinate = map.convert(recognizer.location(in: map), toCoordinateFrom: map)
+            parent.onSpot(MapSpot(coordinate: coordinate, name: "Dropped pin", category: nil))
+        }
+
         func mapView(_ mapView: MLNMapView, regionWillChangeWith reason: MLNCameraChangeReason, animated: Bool) {
             let gestures: MLNCameraChangeReason = [.gesturePan, .gesturePinch, .gestureRotate, .gestureZoomIn, .gestureZoomOut, .gestureOneFingerZoom, .gestureTilt]
             if !reason.intersection(gestures).isEmpty {
@@ -105,6 +158,8 @@ struct NightMapView: UIViewRepresentable {
         func mapView(_ mapView: MLNMapView, regionDidChangeWith reason: MLNCameraChangeReason, animated: Bool) {
             gestureInProgress = false
             applyStyleSettings(to: mapView)
+            let center = mapView.centerCoordinate
+            DispatchQueue.main.async { [weak self] in self?.parent.onCenter(center) }
         }
         func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
             // Original ring + exclamation geometry inspired by the game's side-job marker.
@@ -165,6 +220,22 @@ struct NightMapView: UIViewRepresentable {
             DispatchQueue.main.async { if self.parent.mapStatus != status { self.parent.mapStatus = status } }
         }
         func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation) -> MLNAnnotationView? {
+            if annotation is SpotAnnotation {
+                let view = MLNAnnotationView(reuseIdentifier: "spot")
+                view.frame = CGRect(x: 0, y: 0, width: 36, height: 36)
+                view.backgroundColor = .systemYellow
+                view.layer.cornerRadius = 18
+                view.layer.borderColor = UIColor.white.cgColor
+                view.layer.borderWidth = 3
+                let label = UILabel(frame: view.bounds)
+                label.text = "!"
+                label.textColor = UIColor(NightTheme.navy)
+                label.font = .boldSystemFont(ofSize: 24)
+                label.textAlignment = .center
+                view.addSubview(label)
+                view.isEnabled = false
+                return view
+            }
             let view = MLNAnnotationView(reuseIdentifier: "gps")
             view.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
             view.backgroundColor = UIColor(NightTheme.cyan)

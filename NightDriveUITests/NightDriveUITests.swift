@@ -121,6 +121,49 @@ final class NightDriveUITests: XCTestCase {
     }
 
     @MainActor
+    func testDroppedSpotOpensApplePlacesAndReturns() throws {
+        let app = XCUIApplication()
+        app.launch()
+        XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 15))
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.65, dy: 0.55)).press(forDuration: 1.0)
+        XCTAssertTrue(app.navigationBars["Selected spot"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Dropped pin"].exists)
+        app.buttons["findSpotInAppleMaps"].tap()
+        XCTAssertTrue(app.textFields["placeSearchField"].waitForExistence(timeout: 5))
+        app.buttons["submitPlaceSearch"].tap()
+        XCTAssertTrue(app.staticTexts["Enter an address, postcode or place."].waitForExistence(timeout: 5))
+        app.buttons["closePlaces"].tap()
+        XCTAssertTrue(app.buttons["recenterButton"].waitForExistence(timeout: 5))
+        app.buttons["hideControls"].tap()
+        XCTAssertTrue(app.buttons["openPlaces"].isHittable)
+        app.buttons["openPlaces"].tap()
+        XCTAssertTrue(app.textFields["placeSearchField"].waitForExistence(timeout: 5))
+        app.buttons["closePlaces"].tap()
+    }
+
+    /// Live service smoke check: requires Apple Maps connectivity, not a fixture.
+    @MainActor
+    func testLiveAppleAddressAndPlaceSearch() throws {
+        let app = XCUIApplication()
+        app.launch()
+        XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 15))
+        app.buttons["openPlaces"].tap()
+        let field = app.textFields["placeSearchField"]
+        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        field.tap()
+        field.typeText("Colchester Castle")
+        app.buttons["submitPlaceSearch"].tap()
+        let result = app.buttons.matching(identifier: "placeResult").firstMatch
+        XCTAssertTrue(result.waitForExistence(timeout: 30), "Live Apple Maps returned no result; inspect network/service status.")
+        let shot = XCTAttachment(screenshot: app.screenshot())
+        shot.name = "Live Apple Maps Colchester search"
+        shot.lifetime = .keepAlways
+        add(shot)
+        app.buttons["closePlaces"].tap()
+        XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
     func testLandscapeControlsRemainAccessible() throws {
         let app = XCUIApplication()
         app.launch()

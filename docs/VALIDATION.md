@@ -97,3 +97,19 @@ Local test result bundles: `/tmp/NightDrive-Filters-iPhone.xcresult`, `/tmp/Nigh
 Physical city-centre frame rate, battery, thermals and road-use GPS/heading remain unmeasured. The earlier minimum-runtime and accessibility limitations still apply. No distribution or Apple approval action was performed.
 
 The regular-iPhone category-scroll follow-up also passed. All 15 distinct checks have now passed on each simulator, with the targeted corrections above. On the physical Duo, the running updated map, compact rail and separate recenter arrow were visually observed in the open layout; extended interaction/performance acceptance is still separate.
+
+## Apple Places and map inspection — 2026-10-25
+
+- Simulator build succeeded. Final full suites passed on iPhone 18 Pro (iOS 27.0) and iPhone Duo (iOS 27.1): **12 unit tests and 8 UI tests per simulator, zero failures**.
+- New unit coverage verifies blank-query handling, failure states and suppression of an older response arriving after a newer search. UI coverage exercises a dropped pin, opening/closing Places, search access with controls hidden and a live Colchester Castle search. Existing filters, recenter, landscape, permissions and map-control checks still pass.
+- Manually tapped the neon map's Charing Cross tube station marker: the selected-spot sheet showed the OSM name/category; Find in Apple Maps prefilled the name in Places. Long-press selection remains available independently of visible POIs.
+- Manually opened Colchester Castle's native Apple card from a live result on the closed Duo simulator; address, phone, website, hours and a rating were present. Tapping Apple's built-in Trafalgar Square map feature on the regular iPhone also opened its native card with the correct address and rating. No calls, rating submissions or external directions were started.
+- Fixed a SwiftUI state-update warning by deferring the neon map's camera-centre callback. Neither final suite contains that warning. Xcode's unrelated App Intents metadata warning remains (the app has no App Intents dependency).
+- The regular iPhone full suite preceded a small overlay change that hides search while the GPS drawer is open to prevent overlapping its Close button; the Duo full suite includes that change. Subsequent source changes are whitespace and documentation only.
+- An initial iPhone run completed its tests but stalled in result collection; its runner was stopped after the independent final suite completed successfully. Final evidence is the two successful bundles below.
+- The Duo simulator's fold controls did not reliably switch to a rendered open display during this run (black/stale display). The new Places screen has a width-based side-by-side layout, but open/folding Places presentation is **not visually accepted** from this run. Closed layouts and existing landscape regression checks passed.
+- No physical Duo interaction, installation, signing/provisioning or Apple distribution action was performed. The missing iOS 26 runtime, physical performance, extended accessibility and driving limitations above remain. Routing/CarPlay are still future milestones.
+
+Evidence: [selected neon POI](screenshots/selected-poi.png), [Apple place card](screenshots/apple-place-card.png). Public London/Colchester simulator content only.
+
+Final local result bundles (not committed): `/tmp/NightDrive-Places-iPhone-Final.xcresult` and `/tmp/NightDrive-Places-Duo.xcresult`.

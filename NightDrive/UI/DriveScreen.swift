@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreLocation
 
 struct DriveScreen: View {
     @StateObject private var gps = LocationService()
@@ -14,13 +15,20 @@ struct DriveScreen: View {
     @State private var recenterID = 0
     @State private var controlsVisible = true
     @State private var showingDetails = false
+    @State private var mapCenter = CLLocationCoordinate2D(latitude: 51.5074, longitude: -0.1278)
+    @State private var selectedSpot: MapSpot?
+    @State private var placesRequest: PlacesRequest?
+    @State private var pendingPlaces: PlacesRequest?
 
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
                 NightMapView(mode: $mode, mapStatus: $mapStatus, location: gps.currentLocation,
                              heading: gps.heading, is3D: is3D, poiSettings: poiSettings, recenterID: recenterID,
-                             reloadID: reloadID, reduceMotion: reduceMotion)
+                             reloadID: reloadID, reduceMotion: reduceMotion,
+                             selectedSpot: selectedSpot,
+                             onSpot: { mode = .free; selectedSpot = $0 },
+                             onCenter: { mapCenter = $0 })
                     .ignoresSafeArea()
                 if controlsVisible {
                     HStack(alignment: .top, spacing: 8) {
@@ -65,6 +73,16 @@ struct DriveScreen: View {
                     .transition(.opacity)
                 }
             }
+            .overlay(alignment: .topTrailing) {
+                if !showingDetails || !controlsVisible {
+                    Button { placesRequest = PlacesRequest(center: mapCenter) } label: {
+                        Image(systemName: "magnifyingglass").font(.title3).frame(width: 48, height: 48)
+                    }
+                    .accessibilityLabel("Search addresses and places").accessibilityIdentifier("openPlaces")
+                    .background(NightTheme.panel.opacity(0.96), in: Circle())
+                    .overlay(Circle().stroke(NightTheme.cyan.opacity(0.3))).padding(12)
+                }
+            }
             .overlay(alignment: .bottomTrailing) {
                 Button {
                     selectMode(mode == .driving ? .driving : .follow)
@@ -82,6 +100,15 @@ struct DriveScreen: View {
 
         }
         .background(NightTheme.navy)
+        .fullScreenCover(item: $placesRequest) { request in ApplePlacesScreen(request: request) }
+        .sheet(item: $selectedSpot, onDismiss: {
+            if let pendingPlaces { placesRequest = pendingPlaces; self.pendingPlaces = nil }
+        }) { spot in
+            MapSpotSheet(spot: spot) {
+                pendingPlaces = PlacesRequest(query: spot.category == nil ? "" : spot.name, center: spot.coordinate)
+                selectedSpot = nil
+            }
+        }
         .sheet(isPresented: $showingInfo) { information }
         .sheet(isPresented: $showingPOIFilters) { poiFilters }
         .onChange(of: scenePhase) { _, phase in gps.setActive(phase == .active) }
@@ -247,16 +274,16 @@ struct DriveScreen: View {
     private var information: some View {
         NavigationStack {
             List {
-                Section("NightDrive · Stage 1") {
+                Section("NightDrive · Maps & Places") {
                     Text("A neon map of the real world. Explore freely, follow your location north-up, or use a tilted driving camera aligned to your direction of travel.")
                     Text("Pan, zoom or rotate to return to Explore. Drive is a camera mode; route planning and turn-by-turn directions are not available yet.")
                 }
                 Section("Map controls") {
-                    Text("Tap the speed badge for GPS details. The camera menu switches between Explore, Follow and Drive. Tap the circled exclamation mark to choose POI categories, detail and place names. Tap the separate location arrow to recenter and follow your position; Drive keeps its driving camera. Zoom in for more places. Coverage depends on the map data. POIs do not provide search or routing yet.")
+                    Text("Tap the speed badge for GPS details. The camera menu switches between Explore, Follow and Drive. Tap the circled exclamation mark to choose POI categories, detail and place names. Tap the separate location arrow to recenter and follow your position; Drive keeps its driving camera. Zoom in for more places. Coverage depends on the map data. Tap a gold marker to inspect it, or hold the map to drop a pin. The search button opens Apple Maps Places for addresses, postcodes and place cards. Route guidance is not available yet.")
                     Text("Swipe left across the controls, or tap the chevron, for a full-screen map. Tap the sidebar icon to bring the controls back. Attribution stays visible.")
                 }
                 Section("Location & privacy") {
-                    Text("Location is used only while NightDrive is active. No location history or analytics is recorded by the app. Map tiles and fonts are requested from OpenFreeMap, which can see your IP address and the map areas requested.")
+                    Text("Location is used only while NightDrive is active. No location history or analytics is recorded by the app. Places sends searches and the viewed map area to Apple; results stay in memory for that screen and are not added to the neon map. Map tiles and fonts are requested from OpenFreeMap, which can see your IP address and the map areas requested.")
                     Text("Approximate location is supported. GPS accuracy and building coverage depend on the device and available map data. A network connection is needed for uncached areas.")
                 }
                 Section("Map credits") {

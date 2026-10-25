@@ -27,8 +27,10 @@ xcodebuild -project NightDrive.xcodeproj -scheme NightDrive \
 - **Follow:** request When In Use access and follow a fresh location north-up.
 - **Drive:** follow position with a tilted, course-aligned camera. At low speed, an available compass heading is used. This is **not turn-by-turn navigation**.
 - **2D / 3D:** switch building extrusion and map tilt. Any map gesture returns the camera to Explore.
-- **Circled !:** open POI filters. Enable places, select categories, or use Driving essentials (parking/fuel/charging). Light, Balanced and Detailed control density; Light is the default for busy centres. Gold circled exclamation marks appear from zoom 15; optional place names start at zoom 17. More places qualify as you zoom in. POIs start off and choices last for the current app session. Coverage comes from named OpenStreetMap POIs; this does not add place search, routing or opening hours.
+- **Circled !:** open POI filters. Enable places, select categories, or use Driving essentials (parking/fuel/charging). Light, Balanced and Detailed control density; Light is the default for busy centres. Gold circled exclamation marks appear from zoom 15; optional place names start at zoom 17. More places qualify as you zoom in. POIs start off and choices last for the current app session. Coverage comes from named OpenStreetMap POIs; these neon-map markers use OpenStreetMap data. Apple place search is available separately through Places.
 - **Recenter arrow (bottom right):** return to your current position and Follow. In Drive it retains the driving camera. It remains available with the rail hidden. If a fresh fix is unavailable, GPS details explain the status; permission denial preserves Explore.
+- **Search (magnifying glass):** open Places to search Apple Maps by address, postcode or name. Results stay on an embedded Apple map; tap a result or an Apple POI for its native card with available address/contact details, hours, photos and ratings. Search is submitted explicitly, capped at 25 results, and has loading/empty/failure states.
+- **Select a spot:** tap a visible gold POI on the neon map, or press and hold anywhere to drop a pin. Its sheet shows the OSM name/category or selected coordinates. Find in Apple Maps opens Places around that spot with a suggested query; choose the matching Apple result rather than assuming both databases identify the same place.
 - **Speed badge:** compact MPH display; tap to open/close GPS status, accuracy and permission details.
 - **Full-screen map:** swipe left across the rail or GPS details, or tap the bottom chevron. Restore controls with the small sidebar button. POI/camera selections are preserved while hidden and map attribution stays visible.
 - **Info:** map credits, privacy details and the scope of later stages.
@@ -38,6 +40,8 @@ A compact left-hand icon rail leaves the map visible on regular iPhones and both
 ## GPS and privacy
 
 The app requests **When In Use** location only from Follow/Drive or the recenter button. It never requests Always access, enables background location, saves a location trail or sends analytics. Updates stop when the app is not active. Denied/restricted access leaves map exploration available; denied access provides a Settings link. Reduced accuracy is identified. Stale (>15 seconds), invalid and very poor (>1 km) fixes are not used for camera tracking; unavailable speed stays unknown rather than becoming zero.
+
+Apple Places uses the system MapKit framework without a separate API key. Searches and the displayed map region are sent to Apple when Places is used. Results are kept only in that screen’s memory, with no saved search history or secondary place database. Apple data is displayed with Apple maps and never copied onto the MapLibre map. Apple place-card content varies by place and region; written reviews are not imported into a custom NightDrive database.
 
 Map tiles and glyphs require network access for uncached regions. OpenFreeMap receives your IP address and requested map areas. No bulk/offline download feature is implemented. GPS speed is informational and is not a calibrated vehicle speedometer.
 
@@ -50,10 +54,11 @@ Map tiles and glyphs require network access for uncached regions. OpenFreeMap re
 - `Map/POISettings.swift`: category groups and zoom-dependent density filters applied before symbol placement.
 - `Map/CameraMode.swift`: camera policy and location-quality rules.
 - `Resources/nightdrive.json`: original style bundled with the app; remote vector tiles and fonts only. Regenerate with `python3 scripts/generate_style.py`.
+- `Places/`: cancellable MapKit search, Apple map and unmodified native place cards; separate OSM/dropped-spot selection sheet.
 - `Navigation/NavigationContracts.swift`: provider-neutral route/maneuver and presentation interfaces for later routing and CarPlay.
 - `NightDriveTests/` and `NightDriveUITests/`: meaningful location/camera/style checks and UI regression checks.
 
-See [POI design and performance notes](docs/POI_DESIGN.md) for icon research, filtering and the Colchester sample. See [validation notes](docs/VALIDATION.md) for executed checks and limitations, and [architecture plan](docs/ARCHITECTURE.md) for subsequent stages.
+See [Apple Places integration](docs/APPLE_PLACES.md) for capabilities and map-data boundaries. See [POI design and performance notes](docs/POI_DESIGN.md) for icon research, filtering and the Colchester sample. See [validation notes](docs/VALIDATION.md) for executed checks and limitations, and [architecture plan](docs/ARCHITECTURE.md) for subsequent stages.
 
 ## Signing and future Apple work
 

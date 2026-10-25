@@ -13,10 +13,15 @@
 		629396952DF4BA2EBBA2F205 /* NavigationContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */; };
 		66FD46011CDD8B11A617EE55 /* NightMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A8C650A7A5F31B1C958509 /* NightMapView.swift */; };
 		6B5E51927CFDD5FCB89151CD /* NightTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D111EE02926CC4152BE200 /* NightTheme.swift */; };
+		6D6D9EBB57E3235D0FA1F573 /* ApplePlacesMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738BCF15B3C872E14CEE36B9 /* ApplePlacesMap.swift */; };
+		7FE597DB71C1BAB76949ECD3 /* ApplePlacesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC0EACDDE773A357D8C4638 /* ApplePlacesScreen.swift */; };
+		82F090AB9DC4B557B0A6751C /* MapSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56737CCDA36A41EB0A08E893 /* MapSpot.swift */; };
 		9A560A21FA8E6921C77A7FF9 /* NightDriveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */; };
 		9EA2D477803706B8C41C049B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A4C6F9023903E62EBA694F9 /* Assets.xcassets */; };
 		A2B82808B5E5926149297B5B /* POISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AB8EDDDD4825E7384C886 /* POISettings.swift */; };
 		AF94F448525F2C3C420A9F38 /* nightdrive.json in Resources */ = {isa = PBXBuildFile; fileRef = AD0300FF03CBE928B206845A /* nightdrive.json */; };
+		BD6FEC44552D8A8FB3DC7E49 /* ApplePlaceSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00418C645AB29EDB754B4DC /* ApplePlaceSearchTests.swift */; };
+		C58A171577DFE90E7A4D3117 /* ApplePlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E26CA2C11FCF54FFE26B16D /* ApplePlaceSearch.swift */; };
 		C7626F582E2607C2F7E0F229 /* DriveScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */; };
 		EBC85760C4FB5E941B6ADCEC /* CameraAndLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */; };
 		F4E6AD536F0DA160B561B6F3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750FFD7695527C5B7C45E36B /* LocationService.swift */; };
@@ -43,19 +48,24 @@
 		00A8C650A7A5F31B1C958509 /* NightMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMapView.swift; sourceTree = "<group>"; };
 		0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMode.swift; sourceTree = "<group>"; };
 		50B601401D3B04C924B0E84F /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
+		56737CCDA36A41EB0A08E893 /* MapSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSpot.swift; sourceTree = "<group>"; };
 		5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightDriveApp.swift; sourceTree = "<group>"; };
+		6E26CA2C11FCF54FFE26B16D /* ApplePlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePlaceSearch.swift; sourceTree = "<group>"; };
+		738BCF15B3C872E14CEE36B9 /* ApplePlacesMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePlacesMap.swift; sourceTree = "<group>"; };
 		750FFD7695527C5B7C45E36B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		75D111EE02926CC4152BE200 /* NightTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightTheme.swift; sourceTree = "<group>"; };
 		83FE59EB94500EDC8DFF034C /* NightDriveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightDriveUITests.swift; sourceTree = "<group>"; };
 		86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContracts.swift; sourceTree = "<group>"; };
 		8A4C6F9023903E62EBA694F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		911073BC3220BD8CB3E893AE /* NightDriveUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = NightDriveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		911073BC3220BD8CB3E893AE /* NightDriveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NightDriveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveScreen.swift; sourceTree = "<group>"; };
 		AD0300FF03CBE928B206845A /* nightdrive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nightdrive.json; sourceTree = "<group>"; };
-		BD6768BE0D6878FCE69D71F4 /* NightDrive.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = NightDrive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD6768BE0D6878FCE69D71F4 /* NightDrive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NightDrive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAndLocationTests.swift; sourceTree = "<group>"; };
 		C31AB8EDDDD4825E7384C886 /* POISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POISettings.swift; sourceTree = "<group>"; };
-		D990672DEA46CA62E75E277F /* NightDriveTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = NightDriveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D990672DEA46CA62E75E277F /* NightDriveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NightDriveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E00418C645AB29EDB754B4DC /* ApplePlaceSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePlaceSearchTests.swift; sourceTree = "<group>"; };
+		FBC0EACDDE773A357D8C4638 /* ApplePlacesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePlacesScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +83,7 @@
 		0FABB8BC041ACF36D05856D2 /* NightDriveTests */ = {
 			isa = PBXGroup;
 			children = (
+				E00418C645AB29EDB754B4DC /* ApplePlaceSearchTests.swift */,
 				C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */,
 			);
 			path = NightDriveTests;
@@ -120,6 +131,17 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		4D7A438A1929FAF2006BE58E /* Places */ = {
+			isa = PBXGroup;
+			children = (
+				6E26CA2C11FCF54FFE26B16D /* ApplePlaceSearch.swift */,
+				738BCF15B3C872E14CEE36B9 /* ApplePlacesMap.swift */,
+				FBC0EACDDE773A357D8C4638 /* ApplePlacesScreen.swift */,
+				56737CCDA36A41EB0A08E893 /* MapSpot.swift */,
+			);
+			path = Places;
+			sourceTree = "<group>";
+		};
 		7E40352881FAE7690CD1EDC1 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +169,7 @@
 				2EBF1D8468388A1CDBE9D8CF /* Location */,
 				7E536F8DBB4680B7A9898F39 /* Map */,
 				C8B09CA1A313315267A976EB /* Navigation */,
+				4D7A438A1929FAF2006BE58E /* Places */,
 				CF827CA2EF9FF9446480EE38 /* Resources */,
 				7E40352881FAE7690CD1EDC1 /* UI */,
 			);
@@ -301,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD6FEC44552D8A8FB3DC7E49 /* ApplePlaceSearchTests.swift in Sources */,
 				EBC85760C4FB5E941B6ADCEC /* CameraAndLocationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,9 +333,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C58A171577DFE90E7A4D3117 /* ApplePlaceSearch.swift in Sources */,
+				6D6D9EBB57E3235D0FA1F573 /* ApplePlacesMap.swift in Sources */,
+				7FE597DB71C1BAB76949ECD3 /* ApplePlacesScreen.swift in Sources */,
 				5CD0EB6908094B37BB9729CA /* CameraMode.swift in Sources */,
 				C7626F582E2607C2F7E0F229 /* DriveScreen.swift in Sources */,
 				F4E6AD536F0DA160B561B6F3 /* LocationService.swift in Sources */,
+				82F090AB9DC4B557B0A6751C /* MapSpot.swift in Sources */,
 				629396952DF4BA2EBBA2F205 /* NavigationContracts.swift in Sources */,
 				9A560A21FA8E6921C77A7FF9 /* NightDriveApp.swift in Sources */,
 				66FD46011CDD8B11A617EE55 /* NightMapView.swift in Sources */,
@@ -444,6 +472,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N66DN7MZ2B;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -537,6 +566,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N66DN7MZ2B;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

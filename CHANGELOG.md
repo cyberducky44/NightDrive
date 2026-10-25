@@ -50,3 +50,12 @@
 - Passed all 15 distinct checks on each simulator, including targeted reruns after correcting switch targeting and compact-sheet scrolling in UI tests.
 - Built, signature-verified, installed and launched the signed update on the physical Duo; visually confirmed the updated map and recenter control.
 - Documented icon research and a public Colchester sample: Light/all reduced candidate named POIs from 922 to 71 before collision placement; real-device FPS remains unmeasured.
+
+### Apple Places and tappable spots milestone
+- Added native Apple Maps address/postcode/place search, an adaptive map/results view, tappable Apple POIs and Apple's place-detail cards with available contact details and richer content.
+- Kept Apple data on its corresponding Apple map, preserving attribution and avoiding any secondary POI/review database or overlay onto the neon map.
+- Made rendered gold OpenStreetMap POIs tappable and added press-and-hold dropped pins with a highlighted selection and spot-details sheet.
+- Added an explicit Find in Apple Maps transition from a selected spot, without assuming a database match.
+- Added cancellation, stale-response protection, a 25-result limit and honest empty/loading/failure states; documented search/map-area privacy.
+- Validation is simulator-only at the owner's request; no physical Duo installation or testing.
+- Passed all 20 checks on each simulator, including live Apple search; manually verified neon-marker selection and native Apple POI cards. Physical Duo testing was excluded as requested; open/folding Places validation remains limited by the simulator display.
