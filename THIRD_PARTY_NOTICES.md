@@ -18,3 +18,12 @@ Map data is served by OpenFreeMap using OpenMapTiles and OpenStreetMap contribut
 Noto Sans glyphs are fetched from OpenFreeMap and are subject to the Noto fonts' SIL Open Font License. No glyph/font binaries or map tiles are redistributed in this repository.
 
 NightDrive's custom style and app icon are original. The screenshots supplied by the user were viewed as visual references only and are not included.
+
+## Place search
+
+Photon by Komoot provides the public OpenStreetMap-based geocoding service. Search data is credited to OpenStreetMap with its ODbL link; Photon is credited in the search panel. No Photon server code is bundled. The public service permits reasonable project use, may throttle/block excessive requests and has no availability guarantee.
+
+- https://github.com/komoot/photon
+- https://www.openstreetmap.org/copyright
+
+The previous Apple Maps integration has been removed. Its implementation notes and screenshots remain only as historical milestone evidence.

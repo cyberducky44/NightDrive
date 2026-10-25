@@ -121,14 +121,14 @@ final class NightDriveUITests: XCTestCase {
     }
 
     @MainActor
-    func testDroppedSpotOpensApplePlacesAndReturns() throws {
+    func testDroppedSpotOpensNativeSearchAndReturns() throws {
         let app = XCUIApplication()
         app.launch()
         XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 15))
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.65, dy: 0.55)).press(forDuration: 1.0)
-        XCTAssertTrue(app.navigationBars["Selected spot"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["closeSpot"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Dropped pin"].exists)
-        app.buttons["findSpotInAppleMaps"].tap()
+        app.buttons["findSpotPlaces"].tap()
         XCTAssertTrue(app.textFields["placeSearchField"].waitForExistence(timeout: 5))
         app.buttons["submitPlaceSearch"].tap()
         XCTAssertTrue(app.staticTexts["Enter an address, postcode or place."].waitForExistence(timeout: 5))
@@ -141,9 +141,9 @@ final class NightDriveUITests: XCTestCase {
         app.buttons["closePlaces"].tap()
     }
 
-    /// Live service smoke check: requires Apple Maps connectivity, not a fixture.
+    /// Live service smoke check: requires Photon connectivity, not a fixture.
     @MainActor
-    func testLiveAppleAddressAndPlaceSearch() throws {
+    func testLivePhotonSearchSelectsPlaceOnNeonMap() throws {
         let app = XCUIApplication()
         app.launch()
         XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 15))
@@ -154,13 +154,19 @@ final class NightDriveUITests: XCTestCase {
         field.typeText("Colchester Castle")
         app.buttons["submitPlaceSearch"].tap()
         let result = app.buttons.matching(identifier: "placeResult").firstMatch
-        XCTAssertTrue(result.waitForExistence(timeout: 30), "Live Apple Maps returned no result; inspect network/service status.")
+        XCTAssertTrue(result.waitForExistence(timeout: 30), "Live Photon returned no result; inspect network/service status.")
         let shot = XCTAttachment(screenshot: app.screenshot())
-        shot.name = "Live Apple Maps Colchester search"
+        shot.name = "Live Photon Colchester search"
         shot.lifetime = .keepAlways
         add(shot)
-        app.buttons["closePlaces"].tap()
+        result.tap()
+        XCTAssertTrue(app.buttons["closeSpot"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Colchester Castle"].exists)
+        XCTAssertTrue(app.staticTexts.containing(NSPredicate(format: "label CONTAINS %@", "51.890")).firstMatch.exists)
+        XCTAssertFalse(app.otherElements["applePlacesMap"].exists)
+        app.buttons["closeSpot"].tap()
         XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 5))
+
     }
 
     @MainActor
@@ -174,6 +180,14 @@ final class NightDriveUITests: XCTestCase {
         XCTAssertTrue(app.buttons["aboutButton"].isHittable)
         XCTAssertTrue(app.buttons["hideControls"].isHittable)
         XCTAssertTrue(app.links["© OpenStreetMap"].isHittable)
+        let location = app.buttons["recenterButton"]
+        XCTAssertTrue(location.isHittable)
+        if app.frame.width >= 440 {
+            XCTAssertLessThan(location.frame.maxX, app.frame.midX, "Wide layouts keep recenter in the left sidebar")
+        }
+        app.buttons["hideControls"].tap()
+        XCTAssertTrue(location.isHittable)
+        XCTAssertGreaterThan(location.frame.midX, app.frame.midX, "Hidden rail keeps a floating recenter button")
         let shot = XCTAttachment(screenshot: app.screenshot())
         shot.name = "NightDrive compact landscape"
         shot.lifetime = .keepAlways

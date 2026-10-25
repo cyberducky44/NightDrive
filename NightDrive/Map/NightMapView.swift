@@ -13,6 +13,7 @@ struct NightMapView: UIViewRepresentable {
     let reloadID: Int
     let reduceMotion: Bool
     let selectedSpot: MapSpot?
+    let focusedSpotID: UUID?
     let onSpot: (MapSpot) -> Void
     let onCenter: (CLLocationCoordinate2D) -> Void
 
@@ -68,6 +69,11 @@ struct NightMapView: UIViewRepresentable {
                 map.addAnnotation(marker)
             }
         }
+        if let selectedSpot, focusedSpotID == selectedSpot.id, coordinator.lastFocusedSpotID != focusedSpotID {
+            coordinator.lastFocusedSpotID = focusedSpotID
+            coordinator.initializedCamera = true
+            map.setCenter(selectedSpot.coordinate, zoomLevel: 16.5, animated: !reduceMotion)
+        }
         if coordinator.last3D != is3D {
             coordinator.last3D = is3D
             let camera = map.camera
@@ -113,6 +119,7 @@ struct NightMapView: UIViewRepresentable {
         var marker: MLNPointAnnotation?
         var spotMarker: SpotAnnotation?
         var spotID: UUID?
+        var lastFocusedSpotID: UUID?
         var lastMode: CameraMode = .free
         var lastLocationDate: Date?
         var lastHeading: Double?
@@ -127,9 +134,17 @@ struct NightMapView: UIViewRepresentable {
         init(_ parent: NightMapView) { self.parent = parent }
 
         @objc func selectPOI(_ recognizer: UITapGestureRecognizer) {
-            guard recognizer.state == .ended, parent.poiSettings.enabled,
+            guard recognizer.state == .ended,
                   let map = recognizer.view as? MLNMapView else { return }
             let point = recognizer.location(in: map)
+            if let spot = parent.selectedSpot {
+                let markerPoint = map.convert(spot.coordinate, toPointTo: map)
+                if hypot(markerPoint.x - point.x, markerPoint.y - point.y) <= 26 {
+                    parent.onSpot(spot)
+                    return
+                }
+            }
+            guard parent.poiSettings.enabled else { return }
             let area = CGRect(x: point.x - 18, y: point.y - 18, width: 36, height: 36)
             let features = map.visibleFeatures(in: area, styleLayerIdentifiers: ["points-of-interest"])
             let nearest = features.min { left, right in

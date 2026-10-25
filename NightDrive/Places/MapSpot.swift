@@ -1,38 +1,47 @@
 import SwiftUI
 import CoreLocation
 
-/// A spot selected from OpenMapTiles or directly by the user, never Apple data.
 struct MapSpot: Identifiable {
     let id = UUID()
     let coordinate: CLLocationCoordinate2D
     let name: String
     let category: String?
+    var address: String? = nil
+    var sourceURL: URL? = nil
     var coordinateText: String { String(format: "%.5f, %.5f", coordinate.latitude, coordinate.longitude) }
 }
 
-struct MapSpotSheet: View {
+struct MapSpotPanel: View {
     let spot: MapSpot
     let findPlaces: () -> Void
-    @Environment(\.dismiss) private var dismiss
+    let close: () -> Void
     var body: some View {
-        NavigationStack {
-            List {
-                Section {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("SELECTED SPOT").font(.system(.caption, design: .monospaced, weight: .bold)).tracking(2)
+                Spacer()
+                Button(action: close) { Image(systemName: "xmark").frame(width: 44, height: 44) }
+                    .accessibilityLabel("Close selected spot").accessibilityIdentifier("closeSpot")
+            }.foregroundStyle(NightTheme.cyan)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
                     Label(spot.name, systemImage: "exclamationmark.circle").font(.title2).foregroundStyle(.yellow)
-                    if let category = spot.category { Text(category.replacingOccurrences(of: "_", with: " ").capitalized) }
-                    Text(spot.coordinateText).font(.system(.subheadline, design: .monospaced)).textSelection(.enabled)
-                }
-                Section {
-                    Button(action: findPlaces) { Label("Find in Apple Maps", systemImage: "magnifyingglass") }
-                        .accessibilityIdentifier("findSpotInAppleMaps")
-                    Text("Opens Places around this spot. Search to choose a matching result; map databases may describe places differently.").font(.caption)
-                }
-                Section {
-                    Text(spot.category == nil ? "A spot you selected on the map." : "Place from OpenStreetMap / OpenMapTiles. This tile does not include phone numbers, reviews or full address details.")
-                }.font(.caption).foregroundStyle(.secondary)
+                    if let category = spot.category { Text(category.replacingOccurrences(of: "_", with: " ").capitalized).font(.subheadline) }
+                    if let address = spot.address, !address.isEmpty { Text(address).font(.subheadline).foregroundStyle(NightTheme.muted) }
+                    Text(spot.coordinateText).font(.system(.caption, design: .monospaced)).foregroundStyle(NightTheme.muted)
+                    Button(action: findPlaces) {
+                        Label(spot.category == nil ? "Search this area" : "Search this name", systemImage: "magnifyingglass")
+                            .frame(minHeight: 44)
+                    }.accessibilityIdentifier("findSpotPlaces")
+                    if let sourceURL = spot.sourceURL {
+                        Link("View OpenStreetMap listing", destination: sourceURL).font(.caption)
+                    }
+                    Text("OpenStreetMap place data. Address coverage varies; phone numbers and reviews are not supplied.")
+                        .font(.caption2).foregroundStyle(NightTheme.muted)
+                }.frame(maxWidth: .infinity, alignment: .leading)
             }
-            .navigationTitle("Selected spot").navigationBarTitleDisplayMode(.inline)
-            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
-        }.presentationDetents([.medium, .large]).presentationDragIndicator(.visible)
+        }.padding(14)
+        .background(NightTheme.panel.opacity(0.98), in: RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(NightTheme.cyan.opacity(0.45)))
     }
 }

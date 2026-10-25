@@ -59,3 +59,16 @@
 - Added cancellation, stale-response protection, a 25-result limit and honest empty/loading/failure states; documented search/map-area privacy.
 - Validation is simulator-only at the owner's request; no physical Duo installation or testing.
 - Passed all 20 checks on each simulator, including live Apple search; manually verified neon-marker selection and native Apple POI cards. Physical Duo testing was excluded as requested; open/folding Places validation remains limited by the simulator display.
+
+### Native search and attribution milestone
+- Replaced the separate Apple Maps surface with original navy/cyan search and selected-place panels over the neon map.
+- Added free, account-free Photon address/place search with eight-result limit, request cooldown, cancellation, stale-result suppression and honest network/empty states.
+- Selecting a result centres the neon map on a gold pin and shows supplied address/category data. Closing details preserves the pin; tapping it reopens details. GPS recenter clears selection.
+- Removed Apple Maps requests and native cards; basic search does not claim phone numbers, hours or reviews.
+- Moved the linked map attribution to the bottom-left corner while preserving all provider credits and full-screen visibility.
+- Aligned the location/recenter button inside the sidebar on Duo-sized layouts (440pt+). It floats at bottom right when the sidebar is hidden or search/details are open.
+- Passed 13 unit checks and all 8 UI scenarios on each simulator, with targeted corrections for panel accessibility and Duo safe-area width. No physical-device testing.
+
+### TestFlight preparation
+- Prepared Release 0.1.0 (2), built its archive successfully and added the standard-networking encryption declaration.
+- Registered the app identifier and created the NightDrive Neon Maps App Store Connect record after the owner resolved the agreement requirement. Distribution/upload status is recorded separately.

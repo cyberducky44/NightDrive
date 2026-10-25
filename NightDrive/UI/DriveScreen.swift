@@ -18,7 +18,8 @@ struct DriveScreen: View {
     @State private var mapCenter = CLLocationCoordinate2D(latitude: 51.5074, longitude: -0.1278)
     @State private var selectedSpot: MapSpot?
     @State private var placesRequest: PlacesRequest?
-    @State private var pendingPlaces: PlacesRequest?
+    @State private var showingSpot = false
+    @State private var focusedSpotID: UUID?
 
     var body: some View {
         GeometryReader { geometry in
@@ -26,13 +27,13 @@ struct DriveScreen: View {
                 NightMapView(mode: $mode, mapStatus: $mapStatus, location: gps.currentLocation,
                              heading: gps.heading, is3D: is3D, poiSettings: poiSettings, recenterID: recenterID,
                              reloadID: reloadID, reduceMotion: reduceMotion,
-                             selectedSpot: selectedSpot,
-                             onSpot: { mode = .free; selectedSpot = $0 },
+                             selectedSpot: selectedSpot, focusedSpotID: focusedSpotID,
+                             onSpot: { mode = .free; selectedSpot = $0; showingSpot = true; placesRequest = nil },
                              onCenter: { mapCenter = $0 })
                     .ignoresSafeArea()
-                if controlsVisible {
+                if controlsVisible && placesRequest == nil && !showingSpot {
                     HStack(alignment: .top, spacing: 8) {
-                        ScrollView { controlRail }
+                        ScrollView { controlRail(includeRecenter: geometry.size.width + geometry.safeAreaInsets.leading + geometry.safeAreaInsets.trailing >= 440) }
                             .scrollIndicators(.hidden)
                             .frame(width: 56)
                             .fixedSize(horizontal: false, vertical: true)
@@ -63,7 +64,7 @@ struct DriveScreen: View {
                         }
                     })
                     .transition(.move(edge: .leading).combined(with: .opacity))
-                } else {
+                } else if placesRequest == nil && !showingSpot {
                     Button { setControlsVisible(true) } label: {
                         Image(systemName: "sidebar.left").frame(width: 44, height: 44)
                     }
@@ -74,7 +75,26 @@ struct DriveScreen: View {
                 }
             }
             .overlay(alignment: .topTrailing) {
-                if !showingDetails || !controlsVisible {
+                if let request = placesRequest {
+                    PlaceSearchPanel(request: request, select: { place in
+                        let spot = place.spot
+                        mode = .free
+                        selectedSpot = spot
+                        focusedSpotID = spot.id
+                        placesRequest = nil
+                        showingSpot = true
+                    }, close: { placesRequest = nil })
+                    .id(request.id)
+                    .frame(width: min(400, geometry.size.width - 24), height: max(180, geometry.size.height * 0.55))
+                    .padding(12)
+                } else if showingSpot, let spot = selectedSpot {
+                    MapSpotPanel(spot: spot, findPlaces: {
+                        placesRequest = PlacesRequest(query: spot.category == nil ? "" : spot.name, center: spot.coordinate)
+                        showingSpot = false
+                    }, close: { showingSpot = false })
+                    .frame(width: min(400, geometry.size.width - 24), height: max(180, geometry.size.height * 0.43))
+                    .padding(12)
+                } else if !showingDetails || !controlsVisible {
                     Button { placesRequest = PlacesRequest(center: mapCenter) } label: {
                         Image(systemName: "magnifyingglass").font(.title3).frame(width: 48, height: 48)
                     }
@@ -84,31 +104,17 @@ struct DriveScreen: View {
                 }
             }
             .overlay(alignment: .bottomTrailing) {
-                Button {
-                    selectMode(mode == .driving ? .driving : .follow)
-                    recenterID += 1
-                    if gps.currentLocation == nil { showingDetails = true; controlsVisible = true }
-                } label: {
-                    Image(systemName: "location.fill").font(.title3).frame(width: 48, height: 48)
+                if geometry.size.width + geometry.safeAreaInsets.leading + geometry.safeAreaInsets.trailing < 440 || !controlsVisible || placesRequest != nil || showingSpot {
+                    recenterButton
+                        .background(NightTheme.panel.opacity(0.96), in: Circle())
+                        .overlay(Circle().stroke(NightTheme.cyan.opacity(0.3)))
+                        .padding(16)
                 }
-                .accessibilityLabel("Recenter on my location").accessibilityIdentifier("recenterButton")
-                .background(NightTheme.panel.opacity(0.96), in: Circle())
-                .overlay(Circle().stroke(NightTheme.cyan.opacity(0.3)))
-                .padding(16)
             }
-            .safeAreaInset(edge: .bottom, spacing: 0) { attribution.padding(.bottom, 4) }
+            .safeAreaInset(edge: .bottom, alignment: .leading, spacing: 0) { attribution.padding(.leading, 12).padding(.bottom, 4) }
 
         }
         .background(NightTheme.navy)
-        .fullScreenCover(item: $placesRequest) { request in ApplePlacesScreen(request: request) }
-        .sheet(item: $selectedSpot, onDismiss: {
-            if let pendingPlaces { placesRequest = pendingPlaces; self.pendingPlaces = nil }
-        }) { spot in
-            MapSpotSheet(spot: spot) {
-                pendingPlaces = PlacesRequest(query: spot.category == nil ? "" : spot.name, center: spot.coordinate)
-                selectedSpot = nil
-            }
-        }
         .sheet(isPresented: $showingInfo) { information }
         .sheet(isPresented: $showingPOIFilters) { poiFilters }
         .onChange(of: scenePhase) { _, phase in gps.setActive(phase == .active) }
@@ -130,7 +136,7 @@ struct DriveScreen: View {
         }.accessibilityElement(children: .combine)
     }
 
-    private var controlRail: some View {
+    private func controlRail(includeRecenter: Bool) -> some View {
         VStack(spacing: 2) {
             Button { showingDetails.toggle() } label: {
                 VStack(spacing: 0) {
@@ -165,6 +171,7 @@ struct DriveScreen: View {
                 Text(is3D ? "3D" : "2D").font(.system(.subheadline, design: .monospaced, weight: .bold))
                     .frame(width: 52, height: 44)
             }.accessibilityLabel(is3D ? "Switch to 2D map" : "Switch to 3D map").accessibilityIdentifier("toggle3D")
+            if includeRecenter { recenterButton }
             Button { showingInfo = true } label: {
                 Image(systemName: "info.circle").frame(width: 52, height: 44)
             }.accessibilityLabel("About NightDrive").accessibilityIdentifier("aboutButton")
@@ -177,6 +184,20 @@ struct DriveScreen: View {
         .foregroundStyle(NightTheme.cyan)
         .background(NightTheme.panel.opacity(0.96), in: RoundedRectangle(cornerRadius: 14))
         .overlay(RoundedRectangle(cornerRadius: 14).stroke(NightTheme.cyan.opacity(0.25)))
+    }
+
+    private var recenterButton: some View {
+        Button {
+            selectedSpot = nil
+            showingSpot = false
+            placesRequest = nil
+            selectMode(mode == .driving ? .driving : .follow)
+            recenterID += 1
+            if gps.currentLocation == nil { showingDetails = true; controlsVisible = true }
+        } label: {
+            Image(systemName: "location.fill").font(.title3).frame(width: 48, height: 48)
+        }
+        .accessibilityLabel("Recenter on my location").accessibilityIdentifier("recenterButton")
     }
 
     private func setControlsVisible(_ visible: Bool) {
@@ -279,11 +300,11 @@ struct DriveScreen: View {
                     Text("Pan, zoom or rotate to return to Explore. Drive is a camera mode; route planning and turn-by-turn directions are not available yet.")
                 }
                 Section("Map controls") {
-                    Text("Tap the speed badge for GPS details. The camera menu switches between Explore, Follow and Drive. Tap the circled exclamation mark to choose POI categories, detail and place names. Tap the separate location arrow to recenter and follow your position; Drive keeps its driving camera. Zoom in for more places. Coverage depends on the map data. Tap a gold marker to inspect it, or hold the map to drop a pin. The search button opens Apple Maps Places for addresses, postcodes and place cards. Route guidance is not available yet.")
-                    Text("Swipe left across the controls, or tap the chevron, for a full-screen map. Tap the sidebar icon to bring the controls back. Attribution stays visible.")
+                    Text("Tap the speed badge for GPS details. The camera menu switches between Explore, Follow and Drive. Tap the circled exclamation mark to choose POI categories, detail and place names. Tap the location arrow to recenter and follow your position; Drive keeps its driving camera. Zoom in for more places. Coverage depends on the map data. Tap a gold marker to inspect it, or hold the map to drop a pin. Search addresses, postcodes and places directly on this map. Select a result to fly to its gold pin. Route guidance is not available yet.")
+                    Text("On Duo-sized layouts the location arrow sits in the sidebar; with controls hidden or a search panel open it floats at the bottom right. Swipe left across the controls, or tap the chevron, for a full-screen map. Tap the sidebar icon to bring the controls back. Attribution stays visible.")
                 }
                 Section("Location & privacy") {
-                    Text("Location is used only while NightDrive is active. No location history or analytics is recorded by the app. Places sends searches and the viewed map area to Apple; results stay in memory for that screen and are not added to the neon map. Map tiles and fonts are requested from OpenFreeMap, which can see your IP address and the map areas requested.")
+                    Text("Location is used only while NightDrive is active. No location history or analytics is recorded by the app. Submitted searches and the viewed map centre go to Photon, an OpenStreetMap-based service. Search results stay in memory. The public service has no availability guarantee; phone numbers and reviews are not supplied. Map tiles and fonts are requested from OpenFreeMap, which can see your IP address and the map areas requested.")
                     Text("Approximate location is supported. GPS accuracy and building coverage depend on the device and available map data. A network connection is needed for uncached areas.")
                 }
                 Section("Map credits") {

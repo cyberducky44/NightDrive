@@ -1,3 +1,5 @@
+> Historical milestone, superseded by [native Photon search](PLACE_SEARCH.md). Apple Maps code and requests have been removed from the current app.
+
 # Apple Places integration
 
 ## Scope

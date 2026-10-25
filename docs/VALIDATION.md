@@ -113,3 +113,20 @@ The regular-iPhone category-scroll follow-up also passed. All 15 distinct checks
 Evidence: [selected neon POI](screenshots/selected-poi.png), [Apple place card](screenshots/apple-place-card.png). Public London/Colchester simulator content only.
 
 Final local result bundles (not committed): `/tmp/NightDrive-Places-iPhone-Final.xcresult` and `/tmp/NightDrive-Places-Duo.xcresult`.
+
+## Native Photon search, attribution and Duo rail — 2026-10-25
+
+- Thirteen unit checks passed on both regular iPhone and Duo simulators, including coordinate validation, deduplication, address parsing, empty/failure states and late-response suppression.
+- All eight UI scenarios passed on each simulator, including real Photon search and selection of Colchester Castle on the neon map, dropped-pin search, hidden-rail search, POI filters, recenter, denied permission and landscape. Initial new-panel checks used a container identifier that propagated to its children; removing it and targeting the actual Close button fixed the checks.
+- After adding the sidebar location button, the full eight-case iPhone suite passed. The Duo suite exposed safe-area width reduction near its camera cutout. Using full display width fixed the adaptive rule; final targeted landscape, recenter and denied-permission checks all passed on Duo. The other seven UI cases had passed before that width correction.
+- Manual simulator inspection confirmed the live Colchester Castle result's name/address/category, gold marker on the castle, original navy/cyan panels, and bottom-left provider attribution. No physical Duo interaction, installation or testing occurred.
+- Final result evidence: `/tmp/NightDrive-Photon-iPhone-Retry.xcresult`, `/tmp/NightDrive-Photon-Duo.xcresult`, `/tmp/NightDrive-Photon-Rail-iPhone.xcresult`, `/tmp/NightDrive-Photon-Duo-Rail-Retry.xcresult`. The initial iPhone runner was stopped after its tests finished and result collection stalled; successful independent reruns provide final evidence.
+- The public Photon service is suitable only for modest use; no load test was run. Broader availability, iOS 26 runtime, physical driving/thermal acceptance and fully opened Duo presentation remain unverified.
+
+Screenshots: [native search](screenshots/nightdrive-native-search.png), [selected result on neon map](screenshots/nightdrive-native-place.png). Public simulator coordinates only.
+
+## TestFlight preparation — 2026-10-25
+
+The owner requested internal TestFlight setup and personally resolved Apple's agreement blocker. Registered the explicit NightDrive identifier under the same confirmed development team and created the App Store Connect record as **NightDrive Neon Maps** (the shorter NightDrive name was unavailable). Bundle/display name remain unchanged.
+
+Release archive **0.1.0 (2)** built successfully using existing development signing, with no provisioning-update flag. Added the non-exempt-encryption declaration for this build's standard HTTPS networking; MapLibre includes its own required-reason privacy manifest. Distribution signing/upload is a separate subsequent step; archive success alone is not TestFlight availability.
