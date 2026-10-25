@@ -38,4 +38,4 @@
 - Kept GPS permission/accuracy and network retry details in the speed drawer; denied location automatically reveals the explanation.
 - Extended UI regression checks for POI state, drawer/rail swipes, full-screen restoration, camera menus, attribution, denied location and landscape reachability.
 - Passed the 11-check full suite on each simulator and final targeted short-swipe reruns on both; visually verified real POIs and Duo folding.
-- Built and signature-verified the signed device update and installed it on the connected Duo. Launch verification waits for the device to be unlocked.
+- Built and signature-verified the signed device update and installed it on the connected Duo. After unlocking, launched and visually verified the updated physical UI, POI labels and swipe-away/restore controls.
