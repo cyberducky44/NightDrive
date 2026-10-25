@@ -253,6 +253,7 @@ final class NightDriveUITests: XCTestCase {
         app.buttons["startGuidance"].tap()
         capture("Guidance start state")
         XCTAssertTrue(app.staticTexts["ON ROUTE"].waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "nextTurn").firstMatch.isHittable, "Starting guidance must reset the turn-list scroll position")
         capture("Routing guidance")
         XCTAssertTrue(app.links["© OpenStreetMap"].exists)
         app.buttons["endRoute"].tap()

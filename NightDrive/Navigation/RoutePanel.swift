@@ -100,7 +100,7 @@ struct RoutePanel: View {
                         Link("Fix the map", destination: URL(string: "https://www.openstreetmap.org/fixthemap")!)
                     }.font(.caption2)
                 }.frame(maxWidth: .infinity, alignment: .leading)
-            }.scrollIndicators(.visible).accessibilityIdentifier("routeContents")
+            }.id(session.phase).scrollIndicators(.visible).accessibilityIdentifier("routeContents")
         }.padding(12)
         .background(NightTheme.panel.opacity(0.98), in: RoundedRectangle(cornerRadius: 16))
         .overlay(RoundedRectangle(cornerRadius: 16).stroke(NightTheme.cyan.opacity(0.5)))

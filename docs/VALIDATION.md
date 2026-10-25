@@ -151,3 +151,10 @@ Release archive **0.1.0 (2)** built successfully using existing development sign
 - Final bundles: `/tmp/NightDrive-Routing-iPhone-Final.xcresult`, `/tmp/NightDrive-Routing-iPhone-Compact.xcresult`, `/tmp/NightDrive-Routing-Duo-Final.xcresult`. Release log: `/tmp/nightdrive-routing-archive.log`.
 
 Evidence: [route overview](screenshots/nightdrive-routing-overview.jpg), [maneuver list](screenshots/nightdrive-routing-turns.jpg), [active guidance](screenshots/nightdrive-routing-guidance.jpg). iOS 26 runtime, fully opened Duo, extended physical GPS/performance, vehicle audio and CarPlay runtime/hardware validation remain outstanding.
+
+## Routing release correction — 2026-10-25
+
+- A final Duo screenshot exposed a retained scroll offset after opening the turn list and starting guidance. Reset the route panel for phase changes and added an assertion that the next turn is immediately visible.
+- The targeted live routing UI regression passed on both iPhone and Duo after this correction. Results: `/tmp/NightDrive-Routing-iPhone-Scroll.xcresult` and `/tmp/NightDrive-Routing-Duo-Scroll.xcresult`. Visually checked the corrected [Duo guidance screen](screenshots/nightdrive-duo-routing.png).
+- Release archive **0.2.0 (4)** succeeded with existing signing; strict signature verification passed and the archive has no CarPlay entitlement. Log: `/tmp/nightdrive-routing-archive-4.log`. Added official MapLibre 6.31 device symbols before upload; their arm64 UUID matches the archived framework.
+- Build 3 was uploaded internally but left unassigned to testers; build 4 supersedes it with the scroll correction.

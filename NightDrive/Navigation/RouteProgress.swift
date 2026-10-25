@@ -51,7 +51,7 @@ struct RouteGeometry {
 
 @MainActor
 final class NavigationSession: ObservableObject, NavigationPresenting {
-    enum Phase { case choosingStart, loading, preview, navigating, arrived }
+    enum Phase: Hashable { case choosingStart, loading, preview, navigating, arrived }
     @Published private(set) var destination: MapSpot?
     @Published private(set) var route: DriveRoute?
     @Published private(set) var phase: Phase = .choosingStart
