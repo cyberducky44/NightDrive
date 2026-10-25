@@ -51,7 +51,11 @@ See [validation notes](docs/VALIDATION.md) for executed checks and limitations, 
 
 ## Signing and future Apple work
 
-**No Apple Developer team is configured.** Simulator builds use `CODE_SIGNING_ALLOWED=NO`, with signing disabled in the project. A physical-device run first requires confirming the intended Apple Developer team and bundle ID. Only then enable automatic **development** signing locally. Ask before creating any new certificate/profile or changing account security. Keep personal signing overrides out of Git.
+**Development signing is configured locally on the owner’s Mac**, using the confirmed Apple Developer team. A signed Debug build has been installed and launched on the connected physical iPhone Duo. Certificates remain in Keychain and profiles in Xcode-managed storage; neither is committed.
+
+A fresh checkout remains unsigned by default. `Config/Signing.xcconfig` optionally includes ignored `Config/Local.xcconfig`. To configure another authorized Mac, copy `Config/Local.xcconfig.example` to `Config/Local.xcconfig`, set the confirmed `DEVELOPMENT_TEAM`, and keep the device-only `CODE_SIGNING_ALLOWED[sdk=iphoneos*] = YES` override. The app uses automatic **Apple Development** signing. Select the connected device in Xcode and Run. Simulator builds stay unsigned.
+
+The owner explicitly authorized the development certificates/profiles needed for the initial device installation on 25 October 2026. Confirm authorization before provisioning for a different account or changing account security. Do not commit local signing overrides, credentials, certificates, profiles or device identifiers.
 
 No CarPlay entitlements, approval applications, TestFlight uploads, App Store submissions or Apple review requests have been made. These are separate future actions.
 

@@ -22,3 +22,10 @@
 - Corrected initial camera framing before layout, inherited accessibility identifiers, 2D building visibility and UI-test sheet-dismissal timing.
 - Added screenshots and exact validation limits, including untested physical GPS and the missing iOS 26 runtime.
 - Opened the project in Xcode with the NightDrive scheme and iPhone simulator selected. Signing remains disabled pending team confirmation.
+
+
+### Physical-device development milestone
+- Confirmed the owner's developer team after Xcode account sign-in and provisioned the connected physical iPhone Duo with authorization.
+- Added reproducible automatic Apple Development signing with a Git-ignored local team override; fresh checkouts and simulators remain unsigned.
+- Built the signed Debug app, verified the signature and device provisioning, and installed/launched NightDrive on the physical Duo.
+- Kept certificates, profiles, device identifiers and local account settings out of Git; no Apple distribution or approval submission was performed.

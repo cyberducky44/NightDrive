@@ -41,7 +41,23 @@ Local result bundles from this run (not committed): `/tmp/NightDrive-iPhone-Fina
 - iOS 26 runtime execution: no iOS 26 simulator runtime is installed; only the deployment target and compilation are checked for this minimum.
 - Physical-device GPS/heading accuracy, orientation/calibration, reduced-accuracy behavior, background/foreground transitions in real use, battery/thermal use and long drives.
 - Exhaustive Dynamic Type/VoiceOver, low-connectivity, tile outages and all geographic/building coverage.
-- Real-device installation: the user must confirm the Apple Developer team and bundle ID before signing; any new certificates/profiles require explicit permission.
+- Real-device installation was subsequently completed, as recorded below. Physical GPS and driving acceptance remain separate checks.
 - Routing and CarPlay remain architecture only, deliberately unimplemented in Stage 1.
 
-No Apple Developer team was selected, automatic signing enabled, certificate/profile created, CarPlay entitlement requested, TestFlight build uploaded, or App Store/Apple review submission made.
+At the initial simulator milestone, no Apple Developer team was selected, automatic signing enabled, or certificate/profile created. No CarPlay entitlement request, TestFlight upload, or App Store/Apple review submission has been made.
+
+
+## Physical-device development installation — 2026-10-25
+
+The owner explicitly authorized the necessary development certificates/profiles and connected their iPhone Duo. After the owner signed in to Xcode, the single available individual developer team was verified. The device was paired with Developer Mode already enabled.
+
+- Added shared signing configuration plus an ignored local team override; no team ID, device identifier, credential, certificate or profile is stored in Git.
+- Automatic Apple Development signing built successfully for the connected physical iPhone Duo running iOS 27.1.
+- Xcode generated a development provisioning profile containing the connected device, expiring 25 October 2027.
+- Strict recursive code-signature verification passed; the embedded profile allows development debugging and includes the connected device.
+- Device installation and launch both succeeded through Apple's device tools.
+- The real device screen was inspected in Device Hub: the map and controls rendered successfully. No physical-device screenshot or location was saved to Git.
+- Xcode has the physical Duo selected for subsequent Run actions. The unsigned simulator build also still passes after the signing configuration change.
+- Real GPS permission and road-use/battery/compass acceptance have not been claimed from installation alone.
+
+This was a development installation only. No archive distribution, CarPlay approval, TestFlight upload or App Store submission was performed.

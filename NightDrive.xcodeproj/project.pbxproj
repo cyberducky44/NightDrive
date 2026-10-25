@@ -41,6 +41,7 @@
 /* Begin PBXFileReference section */
 		00A8C650A7A5F31B1C958509 /* NightMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMapView.swift; sourceTree = "<group>"; };
 		0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMode.swift; sourceTree = "<group>"; };
+		50B601401D3B04C924B0E84F /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightDriveApp.swift; sourceTree = "<group>"; };
 		750FFD7695527C5B7C45E36B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		75D111EE02926CC4152BE200 /* NightTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightTheme.swift; sourceTree = "<group>"; };
@@ -73,6 +74,14 @@
 				C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */,
 			);
 			path = NightDriveTests;
+			sourceTree = "<group>";
+		};
+		18312FF9B9C0225E51D84BC0 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				50B601401D3B04C924B0E84F /* Signing.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		1F10578E9118C7CAD6BA6DBE /* NightDriveUITests */ = {
@@ -160,6 +169,7 @@
 		EDE196E6F199B2CC9D70B1F7 = {
 			isa = PBXGroup;
 			children = (
+				18312FF9B9C0225E51D84BC0 /* Config */,
 				809A238CD6D1ABCE6896D210 /* NightDrive */,
 				0FABB8BC041ACF36D05856D2 /* NightDriveTests */,
 				1F10578E9118C7CAD6BA6DBE /* NightDriveUITests */,
@@ -236,14 +246,14 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					41F5BC322CC406B33FAD3AF1 = {
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					C295D8C244639E3755978B00 = {
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 41F5BC322CC406B33FAD3AF1;
 					};
 					DF675FE511340213075F98F7 = {
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -334,7 +344,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -349,7 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -394,6 +404,7 @@
 		};
 		A854A7770FB32297EE9390BE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50B601401D3B04C924B0E84F /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -426,8 +437,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -488,6 +497,7 @@
 		};
 		CFA90EBB05B3D51B2A63AA30 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50B601401D3B04C924B0E84F /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -520,8 +530,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

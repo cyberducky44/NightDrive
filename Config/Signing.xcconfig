@@ -1,0 +1,5 @@
+// Shared defaults: a fresh checkout builds unsigned without an Apple account.
+// Physical-device development signing is enabled only by a local override.
+CODE_SIGN_STYLE = Automatic
+CODE_SIGNING_ALLOWED = NO
+#include? "Local.xcconfig"

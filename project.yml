@@ -8,12 +8,13 @@ packages:
   MapLibre:
     url: https://github.com/maplibre/maplibre-gl-native-distribution.git
     exactVersion: 6.31.0
+configFiles:
+  Debug: Config/Signing.xcconfig
+  Release: Config/Signing.xcconfig
 settings:
   base:
     SWIFT_VERSION: '5.0'
     TARGETED_DEVICE_FAMILY: '1,2'
-    CODE_SIGN_STYLE: Manual
-    CODE_SIGNING_ALLOWED: NO
     CURRENT_PROJECT_VERSION: 1
     MARKETING_VERSION: 0.1.0
     GENERATE_INFOPLIST_FILE: YES
@@ -31,6 +32,9 @@ targets:
     type: application
     platform: iOS
     sources: [NightDrive]
+    settings:
+      base:
+        CODE_SIGN_IDENTITY: Apple Development
     dependencies:
       - package: MapLibre
   NightDriveTests:
