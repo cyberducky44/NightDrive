@@ -69,7 +69,7 @@ A fresh checkout remains unsigned by default. `Config/Signing.xcconfig` optional
 
 The owner explicitly authorized the development certificates/profiles needed for the initial device installation on 25 October 2026. Confirm authorization before provisioning for a different account or changing account security. Do not commit local signing overrides, credentials, certificates, profiles or device identifiers.
 
-Internal TestFlight setup is now authorized and in progress. The App Store Connect listing is **NightDrive Neon Maps**, while the app display name remains NightDrive. Release 0.1.0 (2) archives successfully; see validation notes for upload status. No CarPlay entitlement applications, external beta review or App Store submission has been made.
+Release **0.1.0 (2)** is uploaded and available to the owner in the **NightDrive Internal** TestFlight group. The App Store Connect listing is [NightDrive Neon Maps](https://appstoreconnect.apple.com/apps/6826899785), while the app display name remains NightDrive. Future builds are assigned manually. See validation notes for simulator evidence and the non-blocking MapLibre symbol-upload warning. App Store Connect reports the owner has installed build 2 on iPhone Duo; no agent-driven physical-device testing was performed. No CarPlay entitlement applications, external beta review or App Store submission has been made.
 
 ## Credits
 

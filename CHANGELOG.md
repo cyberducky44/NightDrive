@@ -72,3 +72,9 @@
 ### TestFlight preparation
 - Prepared Release 0.1.0 (2), built its archive successfully and added the standard-networking encryption declaration.
 - Registered the app identifier and created the NightDrive Neon Maps App Store Connect record after the owner resolved the agreement requirement. Distribution/upload status is recorded separately.
+
+### Internal TestFlight milestone
+- Uploaded 0.1.0 (2) with explicitly authorized automatic distribution signing and the Internal Only distribution option.
+- Confirmed Apple's processed build status is Testing and assigned it to NightDrive Internal with the existing owner as the sole tester; future build assignment remains manual.
+- Retained matching upstream MapLibre device symbols locally after a non-blocking upload warning; Apple-side MapLibre crash symbolication remains unverified.
+- Added the verified Duo sidebar-location screenshot and recorded release/testing limits. No physical Duo installation or testing, external beta review or App Store submission.

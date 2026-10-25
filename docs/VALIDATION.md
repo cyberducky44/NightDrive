@@ -123,10 +123,18 @@ Final local result bundles (not committed): `/tmp/NightDrive-Places-iPhone-Final
 - Final result evidence: `/tmp/NightDrive-Photon-iPhone-Retry.xcresult`, `/tmp/NightDrive-Photon-Duo.xcresult`, `/tmp/NightDrive-Photon-Rail-iPhone.xcresult`, `/tmp/NightDrive-Photon-Duo-Rail-Retry.xcresult`. The initial iPhone runner was stopped after its tests finished and result collection stalled; successful independent reruns provide final evidence.
 - The public Photon service is suitable only for modest use; no load test was run. Broader availability, iOS 26 runtime, physical driving/thermal acceptance and fully opened Duo presentation remain unverified.
 
-Screenshots: [native search](screenshots/nightdrive-native-search.png), [selected result on neon map](screenshots/nightdrive-native-place.png). Public simulator coordinates only.
+Screenshots: [native search](screenshots/nightdrive-native-search.png), [selected result on neon map](screenshots/nightdrive-native-place.png), [Duo sidebar location button](screenshots/nightdrive-duo-sidebar-location.png). Public simulator coordinates only.
 
 ## TestFlight preparation — 2026-10-25
 
 The owner requested internal TestFlight setup and personally resolved Apple's agreement blocker. Registered the explicit NightDrive identifier under the same confirmed development team and created the App Store Connect record as **NightDrive Neon Maps** (the shorter NightDrive name was unavailable). Bundle/display name remain unchanged.
 
 Release archive **0.1.0 (2)** built successfully using existing development signing, with no provisioning-update flag. Added the non-exempt-encryption declaration for this build's standard HTTPS networking; MapLibre includes its own required-reason privacy manifest. Distribution signing/upload is a separate subsequent step; archive success alone is not TestFlight availability.
+
+## Internal TestFlight release — 2026-10-25
+
+- Following explicit owner approval for automatic distribution signing and upload, Xcode uploaded **0.1.0 (2)** using **TestFlight Internal Only**. Organizer reports Uploaded to Apple; App Store Connect processed it and reports **Testing**.
+- Assigned the build to **NightDrive Internal**, with only the existing account owner as its one tester. Automatic distribution is disabled; future builds must be assigned deliberately. No external tester group or beta/App Store review submission was made.
+- Xcode reported a non-blocking missing MapLibre dSYM warning. Downloaded the separate device symbols from the [official 6.31.0 release](https://github.com/maplibre/maplibre-native/releases/tag/ios-v6.31.0), verified their UUID matches the archived arm64 framework, and retained them in the local archive's dSYMs directory for local crash diagnosis. They were recovered after upload, so Apple-side MapLibre symbolication is **not verified**. Include matching upstream device symbols before future archive uploads. No SDK upgrade or binary replacement was made.
+- Archive and signing materials remain local; no credentials or personal tester details are committed. The app record is [NightDrive Neon Maps](https://appstoreconnect.apple.com/apps/6826899785).
+- Saved build-specific What to Test notes. The final internal tester record reports **Installed 0.1.0 (2)** on iPhone Duo. This is Apple-reported installation status, not an agent-run launch or physical UI test; no physical device was controlled during this milestone. Prior simulator acceptance remains the evidence for this build's UI.
