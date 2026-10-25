@@ -1,0 +1,637 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1F4AE3107A2CF92CA3BE34D9 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 840FE719AC958959A94FDA49 /* MapLibre */; };
+		5B7F7172DD89BC429BDE1DB3 /* NightDriveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FE59EB94500EDC8DFF034C /* NightDriveUITests.swift */; };
+		5CD0EB6908094B37BB9729CA /* CameraMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */; };
+		629396952DF4BA2EBBA2F205 /* NavigationContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */; };
+		66FD46011CDD8B11A617EE55 /* NightMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A8C650A7A5F31B1C958509 /* NightMapView.swift */; };
+		6B5E51927CFDD5FCB89151CD /* NightTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D111EE02926CC4152BE200 /* NightTheme.swift */; };
+		9A560A21FA8E6921C77A7FF9 /* NightDriveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */; };
+		9EA2D477803706B8C41C049B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A4C6F9023903E62EBA694F9 /* Assets.xcassets */; };
+		AF94F448525F2C3C420A9F38 /* nightdrive.json in Resources */ = {isa = PBXBuildFile; fileRef = AD0300FF03CBE928B206845A /* nightdrive.json */; };
+		C7626F582E2607C2F7E0F229 /* DriveScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */; };
+		EBC85760C4FB5E941B6ADCEC /* CameraAndLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */; };
+		F4E6AD536F0DA160B561B6F3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750FFD7695527C5B7C45E36B /* LocationService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1C64DA2654B9A4E68C4B51CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B62054588988DCC93FA7F49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41F5BC322CC406B33FAD3AF1;
+			remoteInfo = NightDrive;
+		};
+		7F68CC3ED375C4673F461AFB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B62054588988DCC93FA7F49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41F5BC322CC406B33FAD3AF1;
+			remoteInfo = NightDrive;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00A8C650A7A5F31B1C958509 /* NightMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMapView.swift; sourceTree = "<group>"; };
+		0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMode.swift; sourceTree = "<group>"; };
+		5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightDriveApp.swift; sourceTree = "<group>"; };
+		750FFD7695527C5B7C45E36B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		75D111EE02926CC4152BE200 /* NightTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightTheme.swift; sourceTree = "<group>"; };
+		83FE59EB94500EDC8DFF034C /* NightDriveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightDriveUITests.swift; sourceTree = "<group>"; };
+		86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContracts.swift; sourceTree = "<group>"; };
+		8A4C6F9023903E62EBA694F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		911073BC3220BD8CB3E893AE /* NightDriveUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = NightDriveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveScreen.swift; sourceTree = "<group>"; };
+		AD0300FF03CBE928B206845A /* nightdrive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nightdrive.json; sourceTree = "<group>"; };
+		BD6768BE0D6878FCE69D71F4 /* NightDrive.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = NightDrive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAndLocationTests.swift; sourceTree = "<group>"; };
+		D990672DEA46CA62E75E277F /* NightDriveTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = NightDriveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3782BC28B71B4EC24D19AA01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F4AE3107A2CF92CA3BE34D9 /* MapLibre in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0FABB8BC041ACF36D05856D2 /* NightDriveTests */ = {
+			isa = PBXGroup;
+			children = (
+				C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */,
+			);
+			path = NightDriveTests;
+			sourceTree = "<group>";
+		};
+		1F10578E9118C7CAD6BA6DBE /* NightDriveUITests */ = {
+			isa = PBXGroup;
+			children = (
+				83FE59EB94500EDC8DFF034C /* NightDriveUITests.swift */,
+			);
+			path = NightDriveUITests;
+			sourceTree = "<group>";
+		};
+		27108A4C16FC214CA6271877 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD6768BE0D6878FCE69D71F4 /* NightDrive.app */,
+				D990672DEA46CA62E75E277F /* NightDriveTests.xctest */,
+				911073BC3220BD8CB3E893AE /* NightDriveUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2EBF1D8468388A1CDBE9D8CF /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				750FFD7695527C5B7C45E36B /* LocationService.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		3198CE4E52FBE0EF37A3D696 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		7E40352881FAE7690CD1EDC1 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */,
+				75D111EE02926CC4152BE200 /* NightTheme.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		7E536F8DBB4680B7A9898F39 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */,
+				00A8C650A7A5F31B1C958509 /* NightMapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		809A238CD6D1ABCE6896D210 /* NightDrive */ = {
+			isa = PBXGroup;
+			children = (
+				8A4C6F9023903E62EBA694F9 /* Assets.xcassets */,
+				3198CE4E52FBE0EF37A3D696 /* App */,
+				2EBF1D8468388A1CDBE9D8CF /* Location */,
+				7E536F8DBB4680B7A9898F39 /* Map */,
+				C8B09CA1A313315267A976EB /* Navigation */,
+				CF827CA2EF9FF9446480EE38 /* Resources */,
+				7E40352881FAE7690CD1EDC1 /* UI */,
+			);
+			path = NightDrive;
+			sourceTree = "<group>";
+		};
+		C8B09CA1A313315267A976EB /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		CF827CA2EF9FF9446480EE38 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AD0300FF03CBE928B206845A /* nightdrive.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EDE196E6F199B2CC9D70B1F7 = {
+			isa = PBXGroup;
+			children = (
+				809A238CD6D1ABCE6896D210 /* NightDrive */,
+				0FABB8BC041ACF36D05856D2 /* NightDriveTests */,
+				1F10578E9118C7CAD6BA6DBE /* NightDriveUITests */,
+				27108A4C16FC214CA6271877 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		41F5BC322CC406B33FAD3AF1 /* NightDrive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 311AB1D57BE6223FA15BABF6 /* Build configuration list for PBXNativeTarget "NightDrive" */;
+			buildPhases = (
+				57F03C1CECCA1147E5DF597C /* Sources */,
+				9C49A0F5277DAE098C7D3EDC /* Resources */,
+				3782BC28B71B4EC24D19AA01 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NightDrive;
+			packageProductDependencies = (
+				840FE719AC958959A94FDA49 /* MapLibre */,
+			);
+			productName = NightDrive;
+			productReference = BD6768BE0D6878FCE69D71F4 /* NightDrive.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C295D8C244639E3755978B00 /* NightDriveUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2626207E2CF4BDC4B7E8B94 /* Build configuration list for PBXNativeTarget "NightDriveUITests" */;
+			buildPhases = (
+				F602AFC6D4293D57B2D8FF9F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CCC2457BADF78C3ED4F6093 /* PBXTargetDependency */,
+			);
+			name = NightDriveUITests;
+			packageProductDependencies = (
+			);
+			productName = NightDriveUITests;
+			productReference = 911073BC3220BD8CB3E893AE /* NightDriveUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		DF675FE511340213075F98F7 /* NightDriveTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B67B7C385439E295BBD757D0 /* Build configuration list for PBXNativeTarget "NightDriveTests" */;
+			buildPhases = (
+				3C6590CCEB39F900514621BA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				71497EDDD1F813D95BD67CEA /* PBXTargetDependency */,
+			);
+			name = NightDriveTests;
+			packageProductDependencies = (
+			);
+			productName = NightDriveTests;
+			productReference = D990672DEA46CA62E75E277F /* NightDriveTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B62054588988DCC93FA7F49D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					41F5BC322CC406B33FAD3AF1 = {
+						ProvisioningStyle = Manual;
+					};
+					C295D8C244639E3755978B00 = {
+						ProvisioningStyle = Manual;
+						TestTargetID = 41F5BC322CC406B33FAD3AF1;
+					};
+					DF675FE511340213075F98F7 = {
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = E8E6646176DF21CCCD5BD43D /* Build configuration list for PBXProject "NightDrive" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = EDE196E6F199B2CC9D70B1F7;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4A091C54A651CF698C3BD2D8 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 27108A4C16FC214CA6271877 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				41F5BC322CC406B33FAD3AF1 /* NightDrive */,
+				DF675FE511340213075F98F7 /* NightDriveTests */,
+				C295D8C244639E3755978B00 /* NightDriveUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9C49A0F5277DAE098C7D3EDC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9EA2D477803706B8C41C049B /* Assets.xcassets in Resources */,
+				AF94F448525F2C3C420A9F38 /* nightdrive.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3C6590CCEB39F900514621BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBC85760C4FB5E941B6ADCEC /* CameraAndLocationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57F03C1CECCA1147E5DF597C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CD0EB6908094B37BB9729CA /* CameraMode.swift in Sources */,
+				C7626F582E2607C2F7E0F229 /* DriveScreen.swift in Sources */,
+				F4E6AD536F0DA160B561B6F3 /* LocationService.swift in Sources */,
+				629396952DF4BA2EBBA2F205 /* NavigationContracts.swift in Sources */,
+				9A560A21FA8E6921C77A7FF9 /* NightDriveApp.swift in Sources */,
+				66FD46011CDD8B11A617EE55 /* NightMapView.swift in Sources */,
+				6B5E51927CFDD5FCB89151CD /* NightTheme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F602AFC6D4293D57B2D8FF9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B7F7172DD89BC429BDE1DB3 /* NightDriveUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4CCC2457BADF78C3ED4F6093 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41F5BC322CC406B33FAD3AF1 /* NightDrive */;
+			targetProxy = 7F68CC3ED375C4673F461AFB /* PBXContainerItemProxy */;
+		};
+		71497EDDD1F813D95BD67CEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41F5BC322CC406B33FAD3AF1 /* NightDrive */;
+			targetProxy = 1C64DA2654B9A4E68C4B51CD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0092AA641568184A89E1ADCE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cyberducky44.NightDrive;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		40CE58FCFD948F47343A634D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cyberducky44.NightDrive;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4B1ECD7202957D7CD72CE459 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cyberducky44.NightDriveTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NightDrive.app/NightDrive";
+			};
+			name = Debug;
+		};
+		4EA8D7589069E4E240D08D61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cyberducky44.NightDriveTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NightDrive.app/NightDrive";
+			};
+			name = Release;
+		};
+		A854A7770FB32297EE9390BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NightDrive;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NightDrive uses your location while the app is open to show your position and follow your journey on the map.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B97BF71D8C3070C01CCBB7AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cyberducky44.NightDriveUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = NightDrive;
+			};
+			name = Release;
+		};
+		CFA90EBB05B3D51B2A63AA30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NightDrive;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NightDrive uses your location while the app is open to show your position and follow your journey on the map.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F6E1D5AFB05A2D2E698A7CDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cyberducky44.NightDriveUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = NightDrive;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		311AB1D57BE6223FA15BABF6 /* Build configuration list for PBXNativeTarget "NightDrive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0092AA641568184A89E1ADCE /* Debug */,
+				40CE58FCFD948F47343A634D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B2626207E2CF4BDC4B7E8B94 /* Build configuration list for PBXNativeTarget "NightDriveUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F6E1D5AFB05A2D2E698A7CDD /* Debug */,
+				B97BF71D8C3070C01CCBB7AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B67B7C385439E295BBD757D0 /* Build configuration list for PBXNativeTarget "NightDriveTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B1ECD7202957D7CD72CE459 /* Debug */,
+				4EA8D7589069E4E240D08D61 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E8E6646176DF21CCCD5BD43D /* Build configuration list for PBXProject "NightDrive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A854A7770FB32297EE9390BE /* Debug */,
+				CFA90EBB05B3D51B2A63AA30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4A091C54A651CF698C3BD2D8 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution.git";
+			requirement = {
+				kind = exactVersion;
+				version = 6.31.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		840FE719AC958959A94FDA49 /* MapLibre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A091C54A651CF698C3BD2D8 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			productName = MapLibre;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = B62054588988DCC93FA7F49D /* Project object */;
+}

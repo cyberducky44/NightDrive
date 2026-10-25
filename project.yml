@@ -1,0 +1,54 @@
+name: NightDrive
+options:
+  bundleIdPrefix: dev.cyberducky44
+  deploymentTarget:
+    iOS: '26.0'
+  createIntermediateGroups: true
+packages:
+  MapLibre:
+    url: https://github.com/maplibre/maplibre-gl-native-distribution.git
+    exactVersion: 6.31.0
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    TARGETED_DEVICE_FAMILY: '1,2'
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGNING_ALLOWED: NO
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+    INFOPLIST_KEY_UILaunchScreen_Generation: YES
+    INFOPLIST_KEY_UISupportedInterfaceOrientations: 'UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight'
+    INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: 'UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight'
+    INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: 'NightDrive uses your location while the app is open to show your position and follow your journey on the map.'
+    INFOPLIST_KEY_CFBundleDisplayName: NightDrive
+    SUPPORTS_MACCATALYST: NO
+    SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+    ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+targets:
+  NightDrive:
+    type: application
+    platform: iOS
+    sources: [NightDrive]
+    dependencies:
+      - package: MapLibre
+  NightDriveTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [NightDriveTests]
+    dependencies:
+      - target: NightDrive
+  NightDriveUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [NightDriveUITests]
+    dependencies:
+      - target: NightDrive
+schemes:
+  NightDrive:
+    build:
+      targets:
+        NightDrive: all
+    test:
+      targets: [NightDriveTests, NightDriveUITests]
