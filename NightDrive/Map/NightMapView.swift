@@ -14,6 +14,9 @@ struct NightMapView: UIViewRepresentable {
     let reduceMotion: Bool
     let selectedSpot: MapSpot?
     let focusedSpotID: UUID?
+    let route: DriveRoute?
+    let overviewID: Int
+    let routePanelHeight: CGFloat
     let onSpot: (MapSpot) -> Void
     let onCenter: (CLLocationCoordinate2D) -> Void
 
@@ -80,6 +83,8 @@ struct NightMapView: UIViewRepresentable {
             camera.pitch = is3D ? 55 : 0
             map.setCamera(camera, animated: !reduceMotion)
         }
+        coordinator.applyRoute(to: map)
+        coordinator.fitRouteIfNeeded(to: map)
         guard let location else {
             if let marker = coordinator.marker { map.removeAnnotation(marker); coordinator.marker = nil }
             coordinator.lastLocationDate = nil
@@ -120,6 +125,8 @@ struct NightMapView: UIViewRepresentable {
         var spotMarker: SpotAnnotation?
         var spotID: UUID?
         var lastFocusedSpotID: UUID?
+        var appliedRouteID: UUID?
+        var appliedOverviewID = 0
         var lastMode: CameraMode = .free
         var lastLocationDate: Date?
         var lastHeading: Double?
@@ -190,10 +197,49 @@ struct NightMapView: UIViewRepresentable {
                 context.cgContext.fillEllipse(in: CGRect(x: 9.75, y: 14, width: 2.5, height: 2.5))
             }
             style.setImage(marker, forName: "nightdrive-poi")
+            appliedRouteID = nil
+            applyRoute(to: mapView)
+            fitRouteIfNeeded(to: mapView)
             appliedPOISettings = nil
             appliedRank = nil
             applied3D = nil
             applyStyleSettings(to: mapView)
+        }
+
+        func applyRoute(to map: MLNMapView) {
+            guard let style = map.style, appliedRouteID != parent.route?.id else { return }
+            for id in ["route-line", "route-casing"] {
+                if let layer = style.layer(withIdentifier: id) { style.removeLayer(layer) }
+            }
+            if let source = style.source(withIdentifier: "route") { style.removeSource(source) }
+            appliedRouteID = parent.route?.id
+            guard let route = parent.route else { return }
+            let shape = MLNPolyline(coordinates: route.coordinates, count: UInt(route.coordinates.count))
+            let source = MLNShapeSource(identifier: "route", shape: shape, options: nil)
+            style.addSource(source)
+            for (id, color, width) in [("route-casing", UIColor(NightTheme.navy), 10),
+                                       ("route-line", UIColor(red: 0.4, green: 1, blue: 0.72, alpha: 1), 5)] {
+                let layer = MLNLineStyleLayer(identifier: id, source: source)
+                layer.lineColor = NSExpression(forConstantValue: color)
+                layer.lineWidth = NSExpression(forConstantValue: width)
+                layer.lineJoin = NSExpression(forConstantValue: "round")
+                layer.lineCap = NSExpression(forConstantValue: "round")
+                style.addLayer(layer)
+            }
+        }
+
+        func fitRouteIfNeeded(to map: MLNMapView) {
+            guard let route = parent.route, map.style != nil, map.bounds.height > 100,
+                  appliedOverviewID != parent.overviewID else { return }
+            appliedOverviewID = parent.overviewID
+            initializedCamera = true
+            // Keep the actual road geometry clear of the route card in both orientations.
+            let insets = map.bounds.width > 700
+                ? UIEdgeInsets(top: 45, left: 40, bottom: 80, right: 440)
+                : UIEdgeInsets(top: parent.routePanelHeight + map.safeAreaInsets.top + 28, left: 36, bottom: 90, right: 36)
+            map.setVisibleCoordinates(route.coordinates, count: UInt(route.coordinates.count), edgePadding: insets,
+                                      direction: 0, duration: parent.reduceMotion ? 0 : 0.6,
+                                      animationTimingFunction: nil, completionHandler: nil)
         }
 
         func applyStyleSettings(to map: MLNMapView) {

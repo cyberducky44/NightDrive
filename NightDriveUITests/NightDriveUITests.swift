@@ -7,6 +7,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testExploreControlsAttributionAndAbout() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.launch()
         XCTAssertTrue(app.buttons["cameraMenu"].waitForExistence(timeout: 20))
         XCTAssertEqual(app.buttons["cameraMenu"].label, "Camera mode, Explore")
@@ -29,6 +30,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testPOIsAndSwipeToFullScreen() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.launch()
         let poi = app.buttons["poiFilters"]
         XCTAssertTrue(poi.waitForExistence(timeout: 15))
@@ -73,6 +75,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testPOICategoryControls() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.launch()
         XCTAssertTrue(app.buttons["poiFilters"].waitForExistence(timeout: 15))
         app.buttons["poiFilters"].tap()
@@ -93,6 +96,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testRecenterAfterPanningInColchester() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.resetAuthorizationStatus(for: .location)
         // Public city-centre fixture; no physical-device location is recorded.
         XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: 51.8893, longitude: 0.9012))
@@ -123,6 +127,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testDroppedSpotOpensNativeSearchAndReturns() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.launch()
         XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 15))
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.65, dy: 0.55)).press(forDuration: 1.0)
@@ -145,6 +150,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testLivePhotonSearchSelectsPlaceOnNeonMap() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.launch()
         XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 15))
         app.buttons["openPlaces"].tap()
@@ -172,6 +178,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testLandscapeControlsRemainAccessible() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.launch()
         XCUIDevice.shared.orientation = .landscapeLeft
         defer { XCUIDevice.shared.orientation = .portrait }
@@ -197,6 +204,7 @@ final class NightDriveUITests: XCTestCase {
     @MainActor
     func testDeniedLocationKeepsExplorationAvailable() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
         app.resetAuthorizationStatus(for: .location)
         app.launch()
         XCTAssertTrue(app.buttons["cameraMenu"].waitForExistence(timeout: 15))
@@ -209,4 +217,61 @@ final class NightDriveUITests: XCTestCase {
         XCTAssertEqual(app.buttons["cameraMenu"].label, "Camera mode, Explore")
         XCTAssertTrue(app.buttons["cameraMenu"].isHittable)
     }
+    @MainActor
+    func testLiveDrivingRoutePreviewGuidanceAndCancellation() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--mute-guidance"]
+        app.resetAuthorizationStatus(for: .location)
+        XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: 51.8893, longitude: 0.9012))
+        defer { XCUIDevice.shared.location = nil }
+        app.launch()
+        XCTAssertTrue(app.buttons["recenterButton"].waitForExistence(timeout: 15))
+        app.buttons["recenterButton"].tap()
+        let allow = XCUIApplication(bundleIdentifier: "com.apple.springboard").buttons["Allow While Using App"]
+        XCTAssertTrue(allow.waitForExistence(timeout: 10)); allow.tap()
+        XCTAssertTrue(app.staticTexts["GPS connected"].waitForExistence(timeout: 15))
+        if app.buttons["Close GPS details"].exists { app.buttons["Close GPS details"].tap() }
+        app.buttons["openPlaces"].tap()
+        let field = app.textFields["placeSearchField"]
+        XCTAssertTrue(field.waitForExistence(timeout: 5)); field.tap(); field.typeText("Colchester railway station")
+        app.buttons["submitPlaceSearch"].tap()
+        let result = app.buttons.matching(identifier: "placeResult").firstMatch
+        XCTAssertTrue(result.waitForExistence(timeout: 30)); result.tap()
+        let directions = app.buttons["spotDirections"]
+        XCTAssertTrue(directions.waitForExistence(timeout: 5)); directions.tap()
+        XCTAssertTrue(app.buttons["routeFromGPS"].waitForExistence(timeout: 5)); app.buttons["routeFromGPS"].tap()
+        XCTAssertTrue(app.staticTexts["routeSummary"].waitForExistence(timeout: 35), "OSRM live route unavailable")
+        func capture(_ name: String) {
+            let shot = XCTAttachment(screenshot: app.screenshot()); shot.name = name; shot.lifetime = .keepAlways; add(shot)
+        }
+        capture("Routing overview")
+        app.buttons["routeTurns"].tap()
+        app.scrollViews["routeContents"].swipeUp()
+        capture("Routing maneuvers")
+        app.scrollViews["routeContents"].swipeDown()
+        XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: 51.88931, longitude: 0.9012))
+        app.buttons["startGuidance"].tap()
+        capture("Guidance start state")
+        XCTAssertTrue(app.staticTexts["ON ROUTE"].waitForExistence(timeout: 10), app.debugDescription)
+        capture("Routing guidance")
+        XCTAssertTrue(app.links["© OpenStreetMap"].exists)
+        app.buttons["endRoute"].tap()
+        XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["endRoute"].exists)
+    }
+
+    @MainActor
+    func testRouteMapStartAndCancelWithoutGPS() throws {
+        let app = XCUIApplication(); app.resetAuthorizationStatus(for: .location); app.launch()
+        XCTAssertTrue(app.buttons["openPlaces"].waitForExistence(timeout: 15))
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.65, dy: 0.55)).press(forDuration: 1)
+        XCTAssertTrue(app.buttons["spotDirections"].waitForExistence(timeout: 5)); app.buttons["spotDirections"].tap()
+        app.buttons["chooseRouteStart"].tap()
+        XCTAssertTrue(app.buttons["useRouteStart"].waitForExistence(timeout: 5))
+        app.buttons["Cancel"].tap()
+        XCTAssertTrue(app.buttons["endRoute"].waitForExistence(timeout: 5))
+        app.buttons["endRoute"].tap()
+        XCTAssertTrue(app.buttons["cameraMenu"].waitForExistence(timeout: 5))
+    }
+
 }

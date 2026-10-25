@@ -3,3 +3,6 @@
 CODE_SIGN_STYLE = Automatic
 CODE_SIGNING_ALLOWED = NO
 #include? "Local.xcconfig"
+
+// Optional approval-gated CarPlay configuration.
+#include? "CarPlay.xcconfig"

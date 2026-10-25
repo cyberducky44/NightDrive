@@ -50,6 +50,12 @@ final class LocationService: NSObject, ObservableObject, @preconcurrency CLLocat
         else { startIfAuthorized() }
     }
 
+    func setCarNavigationActive(_ enabled: Bool) {
+        let permitted = (Bundle.main.object(forInfoDictionaryKey: "UIBackgroundModes") as? [String])?.contains("location") == true
+        manager.allowsBackgroundLocationUpdates = enabled && permitted
+        manager.showsBackgroundLocationIndicator = enabled && permitted
+    }
+
     func setActive(_ value: Bool) {
         active = value
         now = Date()

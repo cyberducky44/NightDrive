@@ -16,3 +16,5 @@ xcuserdata/
 *.xcarchive
 *.log
 Config/Local.xcconfig
+
+Config/CarPlay.xcconfig

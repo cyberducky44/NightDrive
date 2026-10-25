@@ -27,3 +27,7 @@ Photon by Komoot provides the public OpenStreetMap-based geocoding service. Sear
 - https://www.openstreetmap.org/copyright
 
 The previous Apple Maps integration has been removed. Its implementation notes and screenshots remain only as historical milestone evidence.
+
+## OSRM / FOSSGIS routing
+
+Driving routes use the [FOSSGIS public OSRM service](https://routing.openstreetmap.de/about.html), based on OpenStreetMap. No OSRM server software is bundled. This endpoint is limited to reasonable non-commercial use, no more than one request per second, and has no availability guarantee. NightDrive spaces explicit requests by at least two seconds and does not automatically reroute or upload GPS traces. Start/destination requests are logged by the provider. Attribution and a Fix the map link are shown in the route UI. Broader distribution requires appropriate service capacity and terms.

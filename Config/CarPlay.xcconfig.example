@@ -1,0 +1,4 @@
+// Do not copy to CarPlay.xcconfig until Apple approves this app's navigation entitlement.
+// Then enable CarPlay Navigation on the existing App ID and use authorized automatic signing.
+INFOPLIST_FILE = Config/CarPlay-Info.plist
+CODE_SIGN_ENTITLEMENTS = Config/NightDrive-CarPlay.entitlements

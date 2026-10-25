@@ -12,15 +12,15 @@ Neon-map selection reads visible POI features from the existing symbol layer, wi
 
 PlaceSearchModel owns transient results and injects PlaceSearching for tests. Explicit submissions cancel prior work and discard late replies using a generation token. PhotonPlaceSearch uses an ephemeral URLSession, a 15-second request timeout, eight-result cap, coordinate validation/deduplication and shared request cooldown. There are no searches on typing, map pan, tile taps or location updates. No paid API credential is needed. The endpoint is isolated in the provider for replacement before public scaling.
 
-PlaceSearchPanel and MapSpotPanel use NightDrive colours and typography over MapLibre, with no MapKit surface or Apple requests remaining. The previous Apple integration is recorded only as historical documentation. Search provides discovery, not routes or turn-by-turn navigation.
+PlaceSearchPanel and MapSpotPanel use NightDrive colours and typography over MapLibre, with no MapKit surface or Apple requests remaining. The previous Apple integration is recorded only as historical documentation. Selecting Directions passes the same destination to the shared routing session.
 
-## Stage 2: routing
+## Stage 2: routing and guidance
 
-Choose a provider after comparing coverage, licensing, cost, offline needs and privacy. Implement RoutingService to return DriveRoute geometry and RouteManeuver instructions. Add a navigation session with route progress, off-route detection, rerouting, destination search and cancellation. Keep geometry/progress independent of SwiftUI and MapLibre; add a route source/layers without replacing the base style. Use genuine route responses; no decorative route line presented as navigation. Add replay tests using public fixture coordinates and manual real-device acceptance before driving use.
+OSRMRoutingService supplies genuine car geometry and maneuvers. NavigationSession owns destination, cancelable requests, preview, active guidance, stale/off-route states and arrival. RouteGeometry projects fixes locally within a bounded progress window. Route source/layers are added to MapLibre without replacing the base style. Manual rerouting is deliberately explicit on the modest-use public service. VoiceGuidance formats bounded cues and manages short-lived voicePrompt audio sessions. See [routing details](ROUTING.md).
 
-## Stage 3: CarPlay
+## Stage 3: CarPlay entitlement and integration
 
-Only after explicit authorization and the necessary Apple entitlement/approval, add a CarPlay scene and platform presentation adapter consuming the same navigation session. Respect CarPlay templates and driver-distraction rules. Entitlements, background operation, audio guidance and provisioning must be reviewed at this stage. No CarPlay framework, scene declaration or entitlement is shipped in Stage 1.
+NavigationRuntime shares one location manager and routing session across phone and the prepared CarPlaySceneDelegate. CarPlay renders map content in its own window and uses CPMapTemplate, CPSearchTemplate, CPTrip and CPNavigationSession for interactions and instructions. Search is explicit, all essential destination/route actions are available through templates, and system cancellation ends the shared route. The source is compiled, but the scene, entitlement and background location mode are isolated behind the optional approval-gated configuration. Apple approval and CarPlay runtime/hardware testing are outstanding; see [CarPlay setup](CARPLAY.md).
 
 ## Future hardening
 

@@ -14,6 +14,7 @@ struct MapSpot: Identifiable {
 struct MapSpotPanel: View {
     let spot: MapSpot
     let findPlaces: () -> Void
+    let route: () -> Void
     let close: () -> Void
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -29,6 +30,10 @@ struct MapSpotPanel: View {
                     if let category = spot.category { Text(category.replacingOccurrences(of: "_", with: " ").capitalized).font(.subheadline) }
                     if let address = spot.address, !address.isEmpty { Text(address).font(.subheadline).foregroundStyle(NightTheme.muted) }
                     Text(spot.coordinateText).font(.system(.caption, design: .monospaced)).foregroundStyle(NightTheme.muted)
+                    Button(action: route) {
+                        Label("Directions", systemImage: "arrow.triangle.turn.up.right.diamond")
+                            .frame(minHeight: 44)
+                    }.accessibilityIdentifier("spotDirections")
                     Button(action: findPlaces) {
                         Label(spot.category == nil ? "Search this area" : "Search this name", systemImage: "magnifyingglass")
                             .frame(minHeight: 44)

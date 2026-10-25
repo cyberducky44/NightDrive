@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0B80AE2C4016A944A264C685 /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8625AE12424801E289B280 /* PlaceSearch.swift */; };
+		1CD6B2C148BF676B032D540D /* RoutingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7093D016B44216AFEE6A76 /* RoutingTests.swift */; };
 		1F4AE3107A2CF92CA3BE34D9 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 840FE719AC958959A94FDA49 /* MapLibre */; };
 		280B77BBC9BAC9B3C4968AA6 /* PlaceSearchPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E687FA4E28236EAC3154631 /* PlaceSearchPanel.swift */; };
 		34DA9FA348AE94BCEC3F387C /* PlaceSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507479E17B72AC28AD68EE9 /* PlaceSearchTests.swift */; };
+		35354BC39F651302DA3BEFBE /* OSRMRoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CA12BCACB5DD1E6E6C65A6 /* OSRMRoutingService.swift */; };
+		53D3C0C398AD44BB8EEBB836 /* colchester-route.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C7DFC467ED8CFB504E604F3 /* colchester-route.json */; };
 		5B7F7172DD89BC429BDE1DB3 /* NightDriveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FE59EB94500EDC8DFF034C /* NightDriveUITests.swift */; };
 		5CD0EB6908094B37BB9729CA /* CameraMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */; };
 		629396952DF4BA2EBBA2F205 /* NavigationContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */; };
@@ -21,8 +24,13 @@
 		9EA2D477803706B8C41C049B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A4C6F9023903E62EBA694F9 /* Assets.xcassets */; };
 		A2B82808B5E5926149297B5B /* POISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AB8EDDDD4825E7384C886 /* POISettings.swift */; };
 		AF94F448525F2C3C420A9F38 /* nightdrive.json in Resources */ = {isa = PBXBuildFile; fileRef = AD0300FF03CBE928B206845A /* nightdrive.json */; };
+		C0B0EF9205F4D0A1742F6D2F /* RouteProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCFB6771D9340465D0244E /* RouteProgress.swift */; };
 		C7626F582E2607C2F7E0F229 /* DriveScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */; };
+		CE1D641C4EBA7BC435AA66C4 /* RoutePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A3A008188190DE744127A /* RoutePanel.swift */; };
+		E3D1A19FE088046347652834 /* VoiceGuidance.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCF213BBA51C3FF69989463 /* VoiceGuidance.swift */; };
 		EBC85760C4FB5E941B6ADCEC /* CameraAndLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */; };
+		F0719A4A5DD0094A8E11D94A /* CarPlaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E30D62FCEE51F82A6A570B2 /* CarPlaySceneDelegate.swift */; };
+		F17F61C94397D5C04F59B740 /* NavigationRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E909D178D5F7E32F2176F3B /* NavigationRuntime.swift */; };
 		F4E6AD536F0DA160B561B6F3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750FFD7695527C5B7C45E36B /* LocationService.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,22 +54,30 @@
 /* Begin PBXFileReference section */
 		00A8C650A7A5F31B1C958509 /* NightMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMapView.swift; sourceTree = "<group>"; };
 		0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMode.swift; sourceTree = "<group>"; };
+		1C7DFC467ED8CFB504E604F3 /* colchester-route.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "colchester-route.json"; sourceTree = "<group>"; };
 		2507479E17B72AC28AD68EE9 /* PlaceSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchTests.swift; sourceTree = "<group>"; };
 		50B601401D3B04C924B0E84F /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		56737CCDA36A41EB0A08E893 /* MapSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSpot.swift; sourceTree = "<group>"; };
+		5A7093D016B44216AFEE6A76 /* RoutingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingTests.swift; sourceTree = "<group>"; };
 		5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightDriveApp.swift; sourceTree = "<group>"; };
+		5E30D62FCEE51F82A6A570B2 /* CarPlaySceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlaySceneDelegate.swift; sourceTree = "<group>"; };
 		6E687FA4E28236EAC3154631 /* PlaceSearchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchPanel.swift; sourceTree = "<group>"; };
+		6E909D178D5F7E32F2176F3B /* NavigationRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRuntime.swift; sourceTree = "<group>"; };
 		750FFD7695527C5B7C45E36B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		75D111EE02926CC4152BE200 /* NightTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightTheme.swift; sourceTree = "<group>"; };
 		83FE59EB94500EDC8DFF034C /* NightDriveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightDriveUITests.swift; sourceTree = "<group>"; };
+		84CA12BCACB5DD1E6E6C65A6 /* OSRMRoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSRMRoutingService.swift; sourceTree = "<group>"; };
 		86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContracts.swift; sourceTree = "<group>"; };
 		8A4C6F9023903E62EBA694F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		911073BC3220BD8CB3E893AE /* NightDriveUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = NightDriveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveScreen.swift; sourceTree = "<group>"; };
+		ACCF213BBA51C3FF69989463 /* VoiceGuidance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceGuidance.swift; sourceTree = "<group>"; };
 		AD0300FF03CBE928B206845A /* nightdrive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nightdrive.json; sourceTree = "<group>"; };
+		B47A3A008188190DE744127A /* RoutePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePanel.swift; sourceTree = "<group>"; };
 		BD6768BE0D6878FCE69D71F4 /* NightDrive.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = NightDrive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAndLocationTests.swift; sourceTree = "<group>"; };
 		C31AB8EDDDD4825E7384C886 /* POISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POISettings.swift; sourceTree = "<group>"; };
+		C3FCFB6771D9340465D0244E /* RouteProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteProgress.swift; sourceTree = "<group>"; };
 		CF8625AE12424801E289B280 /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 		D990672DEA46CA62E75E277F /* NightDriveTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = NightDriveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -82,7 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */,
+				1C7DFC467ED8CFB504E604F3 /* colchester-route.json */,
 				2507479E17B72AC28AD68EE9 /* PlaceSearchTests.swift */,
+				5A7093D016B44216AFEE6A76 /* RoutingTests.swift */,
 			);
 			path = NightDriveTests;
 			sourceTree = "<group>";
@@ -163,6 +181,7 @@
 			children = (
 				8A4C6F9023903E62EBA694F9 /* Assets.xcassets */,
 				3198CE4E52FBE0EF37A3D696 /* App */,
+				9D6299B9F38F5762DF44EA63 /* CarPlay */,
 				2EBF1D8468388A1CDBE9D8CF /* Location */,
 				7E536F8DBB4680B7A9898F39 /* Map */,
 				C8B09CA1A313315267A976EB /* Navigation */,
@@ -173,10 +192,23 @@
 			path = NightDrive;
 			sourceTree = "<group>";
 		};
+		9D6299B9F38F5762DF44EA63 /* CarPlay */ = {
+			isa = PBXGroup;
+			children = (
+				5E30D62FCEE51F82A6A570B2 /* CarPlaySceneDelegate.swift */,
+			);
+			path = CarPlay;
+			sourceTree = "<group>";
+		};
 		C8B09CA1A313315267A976EB /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
 				86B94AFF02BF7AEF48F6BC83 /* NavigationContracts.swift */,
+				6E909D178D5F7E32F2176F3B /* NavigationRuntime.swift */,
+				84CA12BCACB5DD1E6E6C65A6 /* OSRMRoutingService.swift */,
+				B47A3A008188190DE744127A /* RoutePanel.swift */,
+				C3FCFB6771D9340465D0244E /* RouteProgress.swift */,
+				ACCF213BBA51C3FF69989463 /* VoiceGuidance.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -246,6 +278,7 @@
 			buildConfigurationList = B67B7C385439E295BBD757D0 /* Build configuration list for PBXNativeTarget "NightDriveTests" */;
 			buildPhases = (
 				3C6590CCEB39F900514621BA /* Sources */,
+				2C51FF2048397A6FB3D67565 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -305,6 +338,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2C51FF2048397A6FB3D67565 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53D3C0C398AD44BB8EEBB836 /* colchester-route.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9C49A0F5277DAE098C7D3EDC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -323,6 +364,7 @@
 			files = (
 				EBC85760C4FB5E941B6ADCEC /* CameraAndLocationTests.swift in Sources */,
 				34DA9FA348AE94BCEC3F387C /* PlaceSearchTests.swift in Sources */,
+				1CD6B2C148BF676B032D540D /* RoutingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,16 +373,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CD0EB6908094B37BB9729CA /* CameraMode.swift in Sources */,
+				F0719A4A5DD0094A8E11D94A /* CarPlaySceneDelegate.swift in Sources */,
 				C7626F582E2607C2F7E0F229 /* DriveScreen.swift in Sources */,
 				F4E6AD536F0DA160B561B6F3 /* LocationService.swift in Sources */,
 				82F090AB9DC4B557B0A6751C /* MapSpot.swift in Sources */,
 				629396952DF4BA2EBBA2F205 /* NavigationContracts.swift in Sources */,
+				F17F61C94397D5C04F59B740 /* NavigationRuntime.swift in Sources */,
 				9A560A21FA8E6921C77A7FF9 /* NightDriveApp.swift in Sources */,
 				66FD46011CDD8B11A617EE55 /* NightMapView.swift in Sources */,
 				6B5E51927CFDD5FCB89151CD /* NightTheme.swift in Sources */,
+				35354BC39F651302DA3BEFBE /* OSRMRoutingService.swift in Sources */,
 				A2B82808B5E5926149297B5B /* POISettings.swift in Sources */,
 				0B80AE2C4016A944A264C685 /* PlaceSearch.swift in Sources */,
 				280B77BBC9BAC9B3C4968AA6 /* PlaceSearchPanel.swift in Sources */,
+				CE1D641C4EBA7BC435AA66C4 /* RoutePanel.swift in Sources */,
+				C0B0EF9205F4D0A1742F6D2F /* RouteProgress.swift in Sources */,
+				E3D1A19FE088046347652834 /* VoiceGuidance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +514,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -493,7 +541,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -560,7 +608,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -581,7 +629,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
