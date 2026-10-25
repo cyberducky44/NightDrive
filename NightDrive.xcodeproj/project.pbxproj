@@ -15,6 +15,7 @@
 		6B5E51927CFDD5FCB89151CD /* NightTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D111EE02926CC4152BE200 /* NightTheme.swift */; };
 		9A560A21FA8E6921C77A7FF9 /* NightDriveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE3F96B1D2C5717CA0121D5 /* NightDriveApp.swift */; };
 		9EA2D477803706B8C41C049B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A4C6F9023903E62EBA694F9 /* Assets.xcassets */; };
+		A2B82808B5E5926149297B5B /* POISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AB8EDDDD4825E7384C886 /* POISettings.swift */; };
 		AF94F448525F2C3C420A9F38 /* nightdrive.json in Resources */ = {isa = PBXBuildFile; fileRef = AD0300FF03CBE928B206845A /* nightdrive.json */; };
 		C7626F582E2607C2F7E0F229 /* DriveScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0047C5BAD4CD1725CBFE1E6 /* DriveScreen.swift */; };
 		EBC85760C4FB5E941B6ADCEC /* CameraAndLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */; };
@@ -53,6 +54,7 @@
 		AD0300FF03CBE928B206845A /* nightdrive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nightdrive.json; sourceTree = "<group>"; };
 		BD6768BE0D6878FCE69D71F4 /* NightDrive.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = NightDrive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C20B2B6F39384F23B1A9EAAF /* CameraAndLocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAndLocationTests.swift; sourceTree = "<group>"; };
+		C31AB8EDDDD4825E7384C886 /* POISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POISettings.swift; sourceTree = "<group>"; };
 		D990672DEA46CA62E75E277F /* NightDriveTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = NightDriveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 			children = (
 				0CAED0BF13632ECA5FFA73C7 /* CameraMode.swift */,
 				00A8C650A7A5F31B1C958509 /* NightMapView.swift */,
+				C31AB8EDDDD4825E7384C886 /* POISettings.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				9A560A21FA8E6921C77A7FF9 /* NightDriveApp.swift in Sources */,
 				66FD46011CDD8B11A617EE55 /* NightMapView.swift in Sources */,
 				6B5E51927CFDD5FCB89151CD /* NightTheme.swift in Sources */,
+				A2B82808B5E5926149297B5B /* POISettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

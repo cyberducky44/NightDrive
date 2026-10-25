@@ -79,3 +79,21 @@ Local result bundles: `/tmp/NightDrive-Controls-iPhone.xcresult`, `/tmp/NightDri
 A simulator crash report records a MapLibre worker-thread crash just after the first unit-test suite finished and its host was shutting down (14:01:03 UTC). The suite itself reported success. It did not recur in the later Duo full suite, targeted reruns or manual map checks. This is recorded as an unresolved test-host teardown issue; it is not proof that extended physical use is crash-free.
 
 The updated signed Debug build and strict signature verification passed, and installation on the physical Duo succeeded. After the owner unlocked the device, launch succeeded. The physical screen showed the compact rail, GPS details, gold POI labels, swipe-away full-screen map and restored controls, with attribution retained. The app was observed in closed and open device layouts. No physical screenshot or location was saved to the repository. This confirms the UI smoke check; extended GPS/road-use acceptance remains unverified.
+
+## POI filtering and recenter — 2026-10-25
+
+- Simulator build passed. Nine unit tests passed on regular iPhone 18 Pro (iOS 27.0) and Duo (iOS 27.1), including category exclusion and bounded zoom-dependent density.
+- Six UI scenarios were exercised on both: camera/About/attribution, landscape, denied location via recenter, category presets/empty selection, POI on/off plus swipe-away restoration, and recenter after panning from a simulated public Colchester location.
+- The initial regular-iPhone toggle tap hit the Form row rather than reliably toggling the switch. Targeting the switch thumb and waiting for the sheet fixed the test; its targeted rerun passed.
+- On Duo, a whole-app swipe moved the compact sheet's navigation chrome out of view. The category test now scrolls from a category control and returns upward before tapping Done; its targeted rerun passed.
+- Visually verified the new original circled-exclamation markers at Colchester, optional names appearing after zooming in, and the recentered GPS marker at the public test coordinate. Simulation was cleared afterward.
+- The [Colchester workload sample](POI_DESIGN.md) found 922 previous named candidates versus 71 in Light/all at zoom 16. This is candidate filtering evidence, not a measured frame-rate improvement or proof all lag is resolved.
+- Signed Debug build and strict signature verification passed. Updated app installed and launched successfully on the connected physical Duo.
+
+Evidence: [filter sheet](screenshots/poi-filters.png), [Colchester circled POIs](screenshots/colchester-pois.png), [optional street-level names](screenshots/colchester-names.png). These screenshots contain only a public simulator test location.
+
+Local test result bundles: `/tmp/NightDrive-Filters-iPhone.xcresult`, `/tmp/NightDrive-Filters-iPhone-Retry.xcresult`, `/tmp/NightDrive-Filters-Duo.xcresult`, `/tmp/NightDrive-Filters-Duo-Retry.xcresult`. The regular-iPhone category-scroll follow-up is `/tmp/NightDrive-Filters-iPhone-Category.xcresult`.
+
+Physical city-centre frame rate, battery, thermals and road-use GPS/heading remain unmeasured. The earlier minimum-runtime and accessibility limitations still apply. No distribution or Apple approval action was performed.
+
+The regular-iPhone category-scroll follow-up also passed. All 15 distinct checks have now passed on each simulator, with the targeted corrections above. On the physical Duo, the running updated map, compact rail and separate recenter arrow were visually observed in the open layout; extended interaction/performance acceptance is still separate.

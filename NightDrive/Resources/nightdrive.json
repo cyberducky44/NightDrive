@@ -745,24 +745,22 @@
       "source-layer": "poi",
       "minzoom": 15,
       "filter": [
-        "has",
-        "name"
+        "all",
+        [
+          "has",
+          "name"
+        ],
+        [
+          "<=",
+          "rank",
+          2
+        ]
       ],
       "layout": {
         "visibility": "none",
         "icon-image": "nightdrive-poi",
-        "icon-padding": 4,
-        "text-field": [
-          "coalesce",
-          [
-            "get",
-            "name:en"
-          ],
-          [
-            "get",
-            "name"
-          ]
-        ],
+        "icon-padding": 10,
+        "text-field": "",
         "text-font": [
           "Noto Sans Regular"
         ],
@@ -782,7 +780,7 @@
         "text-anchor": "top",
         "text-offset": [
           0,
-          0.7
+          1.3
         ],
         "text-max-width": 9,
         "text-padding": 6,

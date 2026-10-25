@@ -39,3 +39,14 @@
 - Extended UI regression checks for POI state, drawer/rail swipes, full-screen restoration, camera menus, attribution, denied location and landscape reachability.
 - Passed the 11-check full suite on each simulator and final targeted short-swipe reruns on both; visually verified real POIs and Duo folding.
 - Built and signature-verified the signed device update and installed it on the connected Duo. After unlocking, launched and visually verified the updated physical UI, POI labels and swipe-away/restore controls.
+
+
+### POI filters and recenter milestone
+- Replaced dot markers with original gold outlined-circle exclamation marks inspired by Cyberpunk side-job icons.
+- Added eight POI category groups, Driving essentials / All / Clear shortcuts, Light / Balanced / Detailed density, and optional street-level place names.
+- Defaulted enabled POIs to Light density and icons only; rank/category predicates exclude features before symbol placement. Cached style settings avoid repeating layout-affecting updates on every GPS refresh.
+- Added an always-available recenter arrow that resumes Follow, retains Drive when active, and explains unavailable or denied GPS.
+- Added category/rank tests and UI checks for filters, full-screen recenter access, permission denial and recentering after panning in simulated Colchester.
+- Passed all 15 distinct checks on each simulator, including targeted reruns after correcting switch targeting and compact-sheet scrolling in UI tests.
+- Built, signature-verified, installed and launched the signed update on the physical Duo; visually confirmed the updated map and recenter control.
+- Documented icon research and a public Colchester sample: Light/all reduced candidate named POIs from 922 to 71 before collision placement; real-device FPS remains unmeasured.

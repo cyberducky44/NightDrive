@@ -8,7 +8,8 @@ struct NightMapView: UIViewRepresentable {
     let location: CLLocation?
     let heading: Double?
     let is3D: Bool
-    let showsPOIs: Bool
+    let poiSettings: POISettings
+    let recenterID: Int
     let reloadID: Int
     let reduceMotion: Bool
 
@@ -39,8 +40,7 @@ struct NightMapView: UIViewRepresentable {
             coordinator.lastReloadID = reloadID
             map.reloadStyle(map)
         }
-        map.style?.layer(withIdentifier: "buildings-3d")?.isVisible = is3D
-        map.style?.layer(withIdentifier: "points-of-interest")?.isVisible = showsPOIs
+        coordinator.applyStyleSettings(to: map)
         if coordinator.last3D != is3D {
             coordinator.last3D = is3D
             let camera = map.camera
@@ -52,7 +52,9 @@ struct NightMapView: UIViewRepresentable {
             coordinator.lastLocationDate = nil
             return
         }
-        if let marker = coordinator.marker { marker.coordinate = location.coordinate }
+        if let marker = coordinator.marker {
+            if coordinator.lastLocationDate != location.timestamp { marker.coordinate = location.coordinate }
+        }
         else {
             let marker = MLNPointAnnotation()
             marker.coordinate = location.coordinate
@@ -60,11 +62,12 @@ struct NightMapView: UIViewRepresentable {
             coordinator.marker = marker
             map.addAnnotation(marker)
         }
-        let changed = coordinator.lastMode != mode || coordinator.lastLocationDate != location.timestamp || coordinator.lastHeading != heading
+        let changed = coordinator.lastMode != mode || coordinator.lastLocationDate != location.timestamp || (mode == .driving && coordinator.lastHeading != heading) || coordinator.lastRecenterID != recenterID
         coordinator.lastMode = mode
         coordinator.lastLocationDate = location.timestamp
         coordinator.lastHeading = heading
         guard mode != .free, changed, !coordinator.gestureInProgress else { return }
+        coordinator.lastRecenterID = recenterID
         let camera = MLNMapCamera(lookingAtCenter: location.coordinate,
                                  altitude: mode.altitude,
                                  pitch: is3D ? (mode == .driving ? 55 : 50) : 0,
@@ -84,6 +87,10 @@ struct NightMapView: UIViewRepresentable {
         var lastHeading: Double?
         var last3D = true
         var lastReloadID = 0
+        var lastRecenterID = 0
+        var appliedPOISettings: POISettings?
+        var appliedRank: Int?
+        var applied3D: Bool?
         var gestureInProgress = false
         var initializedCamera = false
         init(_ parent: NightMapView) { self.parent = parent }
@@ -97,19 +104,50 @@ struct NightMapView: UIViewRepresentable {
         }
         func mapView(_ mapView: MLNMapView, regionDidChangeWith reason: MLNCameraChangeReason, animated: Bool) {
             gestureInProgress = false
+            applyStyleSettings(to: mapView)
         }
         func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
-            // A bundled, original marker keeps POIs independent of an external sprite sheet.
-            let marker = UIGraphicsImageRenderer(size: CGSize(width: 10, height: 10)).image { context in
+            // Original ring + exclamation geometry inspired by the game's side-job marker.
+            let marker = UIGraphicsImageRenderer(size: CGSize(width: 22, height: 22)).image { context in
                 UIColor(NightTheme.navy).setFill()
-                context.cgContext.fillEllipse(in: CGRect(x: 0, y: 0, width: 10, height: 10))
-                UIColor(red: 0.95, green: 0.81, blue: 0.44, alpha: 1).setFill()
-                context.cgContext.fillEllipse(in: CGRect(x: 2, y: 2, width: 6, height: 6))
+                context.cgContext.fillEllipse(in: CGRect(x: 1, y: 1, width: 20, height: 20))
+                let gold = UIColor(red: 0.95, green: 0.81, blue: 0.44, alpha: 1)
+                gold.setStroke()
+                context.cgContext.setLineWidth(1.8)
+                context.cgContext.strokeEllipse(in: CGRect(x: 2, y: 2, width: 18, height: 18))
+                gold.setFill()
+                context.cgContext.fill(CGRect(x: 10, y: 5.5, width: 2, height: 7))
+                context.cgContext.fillEllipse(in: CGRect(x: 9.75, y: 14, width: 2.5, height: 2.5))
             }
             style.setImage(marker, forName: "nightdrive-poi")
-            style.layer(withIdentifier: "points-of-interest")?.isVisible = parent.showsPOIs
-            style.layer(withIdentifier: "buildings-3d")?.isVisible = parent.is3D
+            appliedPOISettings = nil
+            appliedRank = nil
+            applied3D = nil
+            applyStyleSettings(to: mapView)
         }
+
+        func applyStyleSettings(to map: MLNMapView) {
+            guard let style = map.style else { return }
+            if applied3D != parent.is3D {
+                style.layer(withIdentifier: "buildings-3d")?.isVisible = parent.is3D
+                applied3D = parent.is3D
+            }
+            guard let layer = style.layer(withIdentifier: "points-of-interest") as? MLNSymbolStyleLayer else { return }
+            let settings = parent.poiSettings
+            let rank = settings.density.maximumRank(at: map.zoomLevel)
+            if appliedPOISettings != settings || appliedRank != rank {
+                layer.predicate = settings.predicate(at: map.zoomLevel)
+                layer.isVisible = settings.enabled && !settings.categories.isEmpty
+                if appliedPOISettings?.showsNames != settings.showsNames {
+                    layer.text = settings.showsNames ? NSExpression(mglJSONObject: [
+                        "step", ["zoom"], "", 17, ["coalesce", ["get", "name:en"], ["get", "name"]]
+                    ]) : NSExpression(forConstantValue: "")
+                }
+                appliedPOISettings = settings
+                appliedRank = rank
+            }
+        }
+
         func mapViewDidFinishLoadingMap(_ mapView: MLNMapView) {
             if !initializedCamera, parent.mode == .free {
                 initializedCamera = true

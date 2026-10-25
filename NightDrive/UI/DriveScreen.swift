@@ -9,7 +9,9 @@ struct DriveScreen: View {
     @State private var mapStatus = "Loading map…"
     @State private var reloadID = 0
     @State private var showingInfo = false
-    @State private var showsPOIs = false
+    @State private var poiSettings = POISettings()
+    @State private var showingPOIFilters = false
+    @State private var recenterID = 0
     @State private var controlsVisible = true
     @State private var showingDetails = false
 
@@ -17,7 +19,7 @@ struct DriveScreen: View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
                 NightMapView(mode: $mode, mapStatus: $mapStatus, location: gps.currentLocation,
-                             heading: gps.heading, is3D: is3D, showsPOIs: showsPOIs,
+                             heading: gps.heading, is3D: is3D, poiSettings: poiSettings, recenterID: recenterID,
                              reloadID: reloadID, reduceMotion: reduceMotion)
                     .ignoresSafeArea()
                 if controlsVisible {
@@ -63,11 +65,25 @@ struct DriveScreen: View {
                     .transition(.opacity)
                 }
             }
+            .overlay(alignment: .bottomTrailing) {
+                Button {
+                    selectMode(mode == .driving ? .driving : .follow)
+                    recenterID += 1
+                    if gps.currentLocation == nil { showingDetails = true; controlsVisible = true }
+                } label: {
+                    Image(systemName: "location.fill").font(.title3).frame(width: 48, height: 48)
+                }
+                .accessibilityLabel("Recenter on my location").accessibilityIdentifier("recenterButton")
+                .background(NightTheme.panel.opacity(0.96), in: Circle())
+                .overlay(Circle().stroke(NightTheme.cyan.opacity(0.3)))
+                .padding(16)
+            }
             .safeAreaInset(edge: .bottom, spacing: 0) { attribution.padding(.bottom, 4) }
 
         }
         .background(NightTheme.navy)
         .sheet(isPresented: $showingInfo) { information }
+        .sheet(isPresented: $showingPOIFilters) { poiFilters }
         .onChange(of: scenePhase) { _, phase in gps.setActive(phase == .active) }
         .onChange(of: gps.authorization) { _, _ in
             if !gps.isAuthorized && gps.authorization != .notDetermined { mode = .free; showingDetails = true }
@@ -110,13 +126,14 @@ struct DriveScreen: View {
             }
             .accessibilityLabel("Camera mode, \(mode.title)")
             .accessibilityIdentifier("cameraMenu")
-            Button { showsPOIs.toggle() } label: {
-                Image(systemName: showsPOIs ? "mappin.and.ellipse" : "mappin.slash")
+            Button { showingPOIFilters = true } label: {
+                Image(systemName: "exclamationmark.circle")
                     .frame(width: 52, height: 44)
-                    .background(showsPOIs ? NightTheme.cyan.opacity(0.2) : .clear, in: RoundedRectangle(cornerRadius: 10))
+                    .foregroundStyle(poiSettings.enabled ? Color.yellow : NightTheme.cyan)
+                    .background(poiSettings.enabled ? NightTheme.cyan.opacity(0.2) : .clear, in: RoundedRectangle(cornerRadius: 10))
             }
-            .accessibilityLabel(showsPOIs ? "Hide points of interest" : "Show points of interest")
-            .accessibilityValue(showsPOIs ? "On" : "Off").accessibilityIdentifier("togglePOIs")
+            .accessibilityLabel("Points of interest filters")
+            .accessibilityValue(poiSettings.enabled ? "On" : "Off").accessibilityIdentifier("poiFilters")
             Button { is3D.toggle() } label: {
                 Text(is3D ? "3D" : "2D").font(.system(.subheadline, design: .monospaced, weight: .bold))
                     .frame(width: 52, height: 44)
@@ -189,6 +206,44 @@ struct DriveScreen: View {
         Link("© OpenStreetMap", destination: URL(string: "https://www.openstreetmap.org/copyright")!)
     }
 
+    private var poiFilters: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Toggle("Show points of interest", isOn: $poiSettings.enabled).accessibilityIdentifier("togglePOIs")
+                    Picker("Detail", selection: $poiSettings.density) {
+                        ForEach(POIDensity.allCases) { density in Text(density.title).tag(density) }
+                    }.accessibilityIdentifier("poiDensity")
+                    Toggle("Show place names", isOn: $poiSettings.showsNames).accessibilityIdentifier("poiNames")
+                    Text("Light shows fewer places for busy centres. More appear as you zoom in; names appear at street level. Try 2D for a lighter map when many buildings are visible.")
+                        .font(.caption).foregroundStyle(NightTheme.muted)
+                }
+                Section("Quick filters") {
+                    Button("Driving essentials") { poiSettings.categories = [.parking, .fuel]; poiSettings.enabled = true }
+                        .accessibilityIdentifier("poiDriving")
+                    Button("All categories") { poiSettings.categories = Set(POICategory.allCases) }
+                        .accessibilityIdentifier("poiAll")
+                    Button("Clear categories") { poiSettings.categories = [] }
+                        .accessibilityIdentifier("poiClear")
+                }
+                Section("Categories") {
+                    ForEach(POICategory.allCases) { category in
+                        Toggle(category.title, isOn: Binding(
+                            get: { poiSettings.categories.contains(category) },
+                            set: { selected in
+                                if selected { poiSettings.categories.insert(category) }
+                                else { poiSettings.categories.remove(category) }
+                            }))
+                            .accessibilityIdentifier("poi_\(category.rawValue)")
+                    }
+                    if poiSettings.categories.isEmpty { Text("No categories selected — no POIs will appear.").font(.caption) }
+                }
+            }
+            .navigationTitle("Points of interest")
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { showingPOIFilters = false } } }
+        }.presentationDragIndicator(.visible)
+    }
+
     private var information: some View {
         NavigationStack {
             List {
@@ -197,7 +252,7 @@ struct DriveScreen: View {
                     Text("Pan, zoom or rotate to return to Explore. Drive is a camera mode; route planning and turn-by-turn directions are not available yet.")
                 }
                 Section("Map controls") {
-                    Text("Tap the speed badge for GPS details. The camera menu switches between Explore, Follow and Drive. Tap the pin to show or hide named points of interest; zoom in for more places. Coverage depends on the map data. POIs do not provide search or routing yet.")
+                    Text("Tap the speed badge for GPS details. The camera menu switches between Explore, Follow and Drive. Tap the circled exclamation mark to choose POI categories, detail and place names. Tap the separate location arrow to recenter and follow your position; Drive keeps its driving camera. Zoom in for more places. Coverage depends on the map data. POIs do not provide search or routing yet.")
                     Text("Swipe left across the controls, or tap the chevron, for a full-screen map. Tap the sidebar icon to bring the controls back. Attribution stays visible.")
                 }
                 Section("Location & privacy") {
