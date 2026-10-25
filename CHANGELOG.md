@@ -14,3 +14,11 @@
 - Added Explore, Follow and Drive camera modes, manual-gesture release, 2D/3D controls and adaptive compact/wide layouts.
 - Added original app icon, information/privacy sheet and routing/CarPlay architecture boundaries.
 - Built the simulator app and passed seven initial location/camera/style unit tests; UI and final layout validation in progress.
+
+### Validation milestone
+- Passed simulator and unsigned generic iOS builds in Xcode 27.1.
+- Passed all 10 tests on iPhone 18 Pro (iOS 27.0) and all 10 on iPhone Duo (iOS 27.1).
+- Verified live map rendering, Duo open/closed adaptation, When In Use permission, simulated GPS/speed, driving camera and pan-to-Explore behavior.
+- Corrected initial camera framing before layout, inherited accessibility identifiers, 2D building visibility and UI-test sheet-dismissal timing.
+- Added screenshots and exact validation limits, including untested physical GPS and the missing iOS 26 runtime.
+- Opened the project in Xcode with the NightDrive scheme and iPhone simulator selected. Signing remains disabled pending team confirmation.
